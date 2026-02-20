@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot - نتائج البحث</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/search-results.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">🚀 JobPilot</div>
+
+  <div class="nav-links">
+    <a href="search-hero-separated.html">البحث</a>
+    <a href="#">الوظائف الموصى بها</a>
+    <a href="#">الشركات</a>
+    <a href="#">المدونة</a>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="login" onclick="window.location.href='login.html'">تسجيل الدخول</button>
+    <button class="post" onclick="window.location.href='register.html'">إنشاء حساب</button>
+  </div>
+</header>
+
+<!-- Search Results Section -->
+<section class="search-results">
+  <div class="container">
+    <!-- Search Header -->
+    <div class="search-header">
+      <div class="search-info">
+        <h2>نتائج البحث</h2>
+        <p>وجدنا <span id="jobCount">247</span> وظيفة مطابقة لبحثك</p>
+      </div>
+      <div class="search-actions">
+        <button class="ai-search-btn" onclick="performAISearch()">
+          <i class="bi bi-cpu"></i>
+          بحث ذكي بالذكاء الاصطناعي
+        </button>
+        <button class="refine-search-btn" onclick="toggleRefineSearch()">
+          <i class="bi bi-sliders"></i>
+          تحسين البحث
+        </button>
+      </div>
+    </div>
+
+    <!-- Refine Search Panel -->
+    <div id="refineSearchPanel" class="refine-search-panel" style="display: none;">
+      <div class="refine-header">
+        <h4>تحسين البحث</h4>
+        <button class="close-panel" onclick="toggleRefineSearch()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      
+      <div class="refine-content">
+        <div class="refine-row">
+          <div class="refine-group">
+            <label>نوع الوظيفة</label>
+            <select class="form-select">
+              <option>جميع الأنواع</option>
+              <option>دوام كامل</option>
+              <option>دوام جزئي</option>
+              <option>عن بعد</option>
+              <option>عقد</option>
+            </select>
+          </div>
+          
+          <div class="refine-group">
+            <label>المستوى الوظيفي</label>
+            <select class="form-select">
+              <option>جميع المستويات</option>
+              <option>مبتدئ</option>
+              <option>متوسط</option>
+              <option>خبير</option>
+              <option>مدير</option>
+            </select>
+          </div>
+          
+          <div class="refine-group">
+            <label>الراتب (ريال)</label>
+            <div class="salary-range">
+              <input type="number" placeholder="من" class="form-control">
+              <span>-</span>
+              <input type="number" placeholder="إلى" class="form-control">
+            </div>
+          </div>
+        </div>
+        
+        <div class="refine-row">
+          <div class="refine-group">
+            <label>المدينة</label>
+            <select class="form-select">
+              <option>جميع المدن</option>
+              <option>الرياض</option>
+              <option>جدة</option>
+              <option>الدمام</option>
+              <option>مكة</option>
+              <option>المدينة المنورة</option>
+            </select>
+          </div>
+          
+          <div class="refine-group">
+            <label>الخبرة (سنوات)</label>
+            <select class="form-select">
+              <option>بدون خبرة</option>
+              <option>1-3 سنوات</option>
+              <option>3-5 سنوات</option>
+              <option>5-10 سنوات</option>
+              <option>أكثر من 10 سنوات</option>
+            </select>
+          </div>
+          
+          <div class="refine-group">
+            <label>المهارات</label>
+            <input type="text" placeholder="أدخل المهارات المطلوبة" class="form-control">
+          </div>
+        </div>
+        
+        <div class="refine-actions">
+          <button class="apply-refine-btn" onclick="applyRefineSearch()">
+            <i class="bi bi-check-circle"></i>
+            تطبيق الفلاتر
+          </button>
+          <button class="reset-refine-btn" onclick="resetRefineSearch()">
+            <i class="bi bi-arrow-clockwise"></i>
+            إعادة تعيين
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Search Results -->
+    <div id="aiResults" class="ai-results" style="display: none;">
+      <div class="ai-header">
+        <div class="ai-icon">
+          <i class="bi bi-cpu-fill"></i>
+        </div>
+        <div class="ai-text">
+          <h3>نتائج البحث الذكي</h3>
+          <p>تم العثور على وظائف مطابقة بناءً على مهاراتك وخبراتك</p>
+        </div>
+      </div>
+      
+      <div class="ai-jobs-container">
+        <!-- AI Job Cards will be inserted here -->
+      </div>
+    </div>
+
+    <!-- LinkedIn Jobs Section -->
+    <div class="linkedin-jobs">
+      <div class="linkedin-header">
+        <div class="linkedin-icon">
+          <i class="bi bi-linkedin"></i>
+        </div>
+        <div class="linkedin-text">
+          <h3>وظائف من LinkedIn</h3>
+          <p>وظائف حقيقية من منصة LinkedIn المهنية</p>
+        </div>
+        <div class="linkedin-badge">
+          <span>مصدق</span>
+        </div>
+      </div>
+      
+      <div class="jobs-container">
+        <!-- Job Card 1 -->
+        <div class="job-card" data-job-id="1">
+          <div class="job-header">
+            <div class="company-info">
+              <img src="https://picsum.photos/seed/stc/60/60" alt="شركة" class="company-logo">
+              <div class="job-details">
+                <h4 class="job-title">مطور Full Stack</h4>
+                <p class="company-name">شركة الاتصالات السعودية (STC)</p>
+                <div class="job-meta">
+                  <span class="location"><i class="bi bi-geo-alt"></i> الرياض</span>
+                  <span class="type"><i class="bi bi-clock"></i> دوام كامل</span>
+                  <span class="posted"><i class="bi bi-calendar"></i> منذ 2 يوم</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-actions">
+              <button class="save-btn" onclick="saveJob(1)">
+                <i class="bi bi-bookmark"></i>
+              </button>
+              <button class="apply-btn" onclick="applyJob(1)">التقدم الآن</button>
+            </div>
+          </div>
+          
+          <div class="job-description">
+            <p>نبحث عن مطور Full Stack محترف للانضمام إلى فريقنا. يجب أن تكون لديك خبرة في React, Node.js, وقواعد البيانات.</p>
+            
+            <div class="job-skills">
+              <span class="skill">React</span>
+              <span class="skill">Node.js</span>
+              <span class="skill">MongoDB</span>
+              <span class="skill">TypeScript</span>
+            </div>
+          </div>
+          
+          <div class="job-footer">
+            <div class="salary">
+              <i class="bi bi-currency-dollar"></i>
+              <span>12,000 - 18,000 ريال</span>
+            </div>
+            <div class="job-source">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Card 2 -->
+        <div class="job-card" data-job-id="2">
+          <div class="job-header">
+            <div class="company-info">
+              <img src="https://picsum.photos/seed/sabb/60/60" alt="شركة" class="company-logo">
+              <div class="job-details">
+                <h4 class="job-title">محاسب مالي</h4>
+                <p class="company-name">البنك السعودي الفرنسي (SABB)</p>
+                <div class="job-meta">
+                  <span class="location"><i class="bi bi-geo-alt"></i> جدة</span>
+                  <span class="type"><i class="bi bi-clock"></i> دوام كامل</span>
+                  <span class="posted"><i class="bi bi-calendar"></i> منذ 3 أيام</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-actions">
+              <button class="save-btn" onclick="saveJob(2)">
+                <i class="bi bi-bookmark"></i>
+              </button>
+              <button class="apply-btn" onclick="applyJob(2)">التقدم الآن</button>
+            </div>
+          </div>
+          
+          <div class="job-description">
+            <p>مطلوب محاسب مالي للعمل في قسم المحاسبة. يجب أن يكون لديك شهادة محاسبة وخبرة في البرامج المحاسبية.</p>
+            
+            <div class="job-skills">
+              <span class="skill">محاسبة</span>
+              <span class="skill">Excel</span>
+              <span class="skill">SAP</span>
+              <span class="skill">تقارير مالية</span>
+            </div>
+          </div>
+          
+          <div class="job-footer">
+            <div class="salary">
+              <i class="bi bi-currency-dollar"></i>
+              <span>8,000 - 12,000 ريال</span>
+            </div>
+            <div class="job-source">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Card 3 -->
+        <div class="job-card" data-job-id="3">
+          <div class="job-header">
+            <div class="company-info">
+              <img src="https://picsum.photos/seed/aramco/60/60" alt="شركة" class="company-logo">
+              <div class="job-details">
+                <h4 class="job-title">مهندس برمجيات</h4>
+                <p class="company-name">أرامكو</p>
+                <div class="job-meta">
+                  <span class="location"><i class="bi bi-geo-alt"></i> الظهران</span>
+                  <span class="type"><i class="bi bi-house"></i> عن بعد</span>
+                  <span class="posted"><i class="bi bi-calendar"></i> منذ يوم واحد</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-actions">
+              <button class="save-btn" onclick="saveJob(3)">
+                <i class="bi bi-bookmark"></i>
+              </button>
+              <button class="apply-btn" onclick="applyJob(3)">التقدم الآن</button>
+            </div>
+          </div>
+          
+          <div class="job-description">
+            <p>نبحث عن مهندس برمجيات محترف للعمل في مشاريعنا التقنية. خبرة في تطوير البرمجيات وأنظمة التشغيل مطلوبة.</p>
+            
+            <div class="job-skills">
+              <span class="skill">Python</span>
+              <span class="skill">Java</span>
+              <span class="skill">Linux</span>
+              <span class="skill">DevOps</span>
+            </div>
+          </div>
+          
+          <div class="job-footer">
+            <div class="salary">
+              <i class="bi bi-currency-dollar"></i>
+              <span>15,000 - 25,000 ريال</span>
+            </div>
+            <div class="job-source">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Card 4 -->
+        <div class="job-card" data-job-id="4">
+          <div class="job-header">
+            <div class="company-info">
+              <img src="https://picsum.photos/seed/noor/60/60" alt="شركة" class="company-logo">
+              <div class="job-details">
+                <h4 class="job-title">مصمم واجهات مستخدم</h4>
+                <p class="company-name">بنك نور</p>
+                <div class="job-meta">
+                  <span class="location"><i class="bi bi-geo-alt"></i> الرياض</span>
+                  <span class="type"><i class="bi bi-clock"></i> دوام كامل</span>
+                  <span class="posted"><i class="bi bi-calendar"></i> منذ 4 أيام</span>
+                </div>
+              </div>
+            </div>
+            <div class="job-actions">
+              <button class="save-btn" onclick="saveJob(4)">
+                <i class="bi bi-bookmark"></i>
+              </button>
+              <button class="apply-btn" onclick="applyJob(4)">التقدم الآن</button>
+            </div>
+          </div>
+          
+          <div class="job-description">
+            <p>مطلوب مصمم واجهات مستخدم محترف لتحسين تجربة المستخدم في تطبيقاتنا الرقمية.</p>
+            
+            <div class="job-skills">
+              <span class="skill">UI/UX</span>
+              <span class="skill">Figma</span>
+              <span class="skill">Adobe XD</span>
+              <span class="skill">Prototyping</span>
+            </div>
+          </div>
+          
+          <div class="job-footer">
+            <div class="salary">
+              <i class="bi bi-currency-dollar"></i>
+              <span>10,000 - 16,000 ريال</span>
+            </div>
+            <div class="job-source">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="load-more-container">
+        <button class="load-more-btn" onclick="loadMoreJobs()">
+          <i class="bi bi-arrow-down-circle"></i>
+          عرض المزيد من الوظائف
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI Chat Assistant -->
+<div id="aiAssistant" class="ai-assistant">
+  <div class="ai-header">
+    <div class="ai-avatar">
+      <i class="bi bi-robot"></i>
+    </div>
+    <div class="ai-info">
+      <h4>مساعد الوظائف الذكي</h4>
+      <p>اسألني عن أي وظيفة تبحث عنها</p>
+    </div>
+    <button class="minimize-ai" onclick="toggleAIAssistant()">
+      <i class="bi bi-dash"></i>
+    </button>
+  </div>
+  
+  <div class="ai-chat">
+    <div class="chat-messages" id="chatMessages">
+      <div class="ai-message">
+        <p>مرحباً! أنا مساعدك الذكي للبحث عن وظائف. كيف يمكنني مساعدتك اليوم؟</p>
+      </div>
+    </div>
+    
+    <div class="chat-input">
+      <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا..." onkeypress="handleAIChat(event)">
+      <button onclick="sendAIMessage()">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating AI Button -->
+<button class="floating-ai-btn" onclick="toggleAIAssistant()">
+  <i class="bi bi-robot"></i>
+</button>
+
+<script src="js/search-results.js"></script>
+</body>
+</html>

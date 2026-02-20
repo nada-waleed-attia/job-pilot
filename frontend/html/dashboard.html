@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - JobPilot</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0 2rem 0;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-card.primary {
+            border-left-color: var(--primary-color);
+        }
+        
+        .stat-card.success {
+            border-left-color: var(--success-color);
+        }
+        
+        .stat-card.warning {
+            border-left-color: var(--warning-color);
+        }
+        
+        .stat-card.info {
+            border-left-color: var(--info-color);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            border-right: 4px solid transparent;
+        }
+        
+        .job-card:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .job-card.new {
+            border-right-color: var(--success-color);
+        }
+        
+        .job-card.interview {
+            border-right-color: var(--warning-color);
+        }
+        
+        .job-card.rejected {
+            border-right-color: var(--danger-color);
+        }
+        
+        .job-card.applied {
+            border-right-color: var(--info-color);
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.new {
+            background: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-badge.interview {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .status-badge.rejected {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .status-badge.applied {
+            background: rgba(13, 202, 240, 0.1);
+            color: var(--info-color);
+        }
+        
+        .quick-action-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .quick-action-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .activity-icon.success {
+            background: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .activity-icon.info {
+            background: rgba(13, 202, 240, 0.1);
+            color: var(--info-color);
+        }
+        
+        .activity-icon.warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring circle {
+            transition: stroke-dashoffset 1s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+            
+            .chart-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Secondary Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" id="secondaryNav">
+        <div class="container">
+            <div class="d-flex justify-content-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="login.html">
+                            <i class="bi bi-box-arrow-in-left me-1"></i> تسجيل الدخول
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i> إنشاء حساب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="search.html">
+                            <i class="bi bi-search me-1"></i> البحث عن وظائف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i> لوحة التحكم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="profile.html">
+                            <i class="bi bi-person me-1"></i> الملف الشخصي
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="bi bi-rocket-takeoff"></i> JobPilot
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.html">لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">الملف الشخصي</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search.html">البحث عن وظائف</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold mb-2">مرحباً بك، أحمد!</h1>
+                    <p class="lead mb-0">هذا هو ملخص نشاطك في البحث عن وظائف اليوم</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="d-flex align-items-center justify-content-md-end gap-3">
+                        <div class="text-center">
+                            <h3 class="fw-bold mb-0">15</h3>
+                            <small>وظيفة جديدة</small>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="fw-bold mb-0">3</h3>
+                            <small>مقابلات</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card primary">
+                    <i class="bi bi-send-check text-primary"></i>
+                    <h3 class="fw-bold">127</h3>
+                    <p class="text-muted mb-0">إجمالي التقديمات</p>
+                    <small class="text-success"><i class="bi bi-arrow-up"></i> +12 هذا الأسبوع</small>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card success">
+                    <i class="bi bi-eye-fill text-success"></i>
+                    <h3 class="fw-bold">45</h3>
+                    <p class="text-muted mb-0">تمت المشاهدة</p>
+                    <small class="text-success"><i class="bi bi-arrow-up"></i> +8 هذا الأسبوع</small>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card warning">
+                    <i class="bi bi-calendar-check-fill text-warning"></i>
+                    <h3 class="fw-bold">8</h3>
+                    <p class="text-muted mb-0">مقابلات مجدولة</p>
+                    <small class="text-warning"><i class="bi bi-arrow-up"></i> +2 هذا الأسبوع</small>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card info">
+                    <i class="bi bi-graph-up-fill text-info"></i>
+                    <h3 class="fw-bold">85%</h3>
+                    <p class="text-muted mb-0">معدل الرد</p>
+                    <small class="text-success"><i class="bi bi-arrow-up"></i> +5% هذا الأسبوع</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="quick-action-card" onclick="window.location.href='search.html'">
+                    <i class="bi bi-search"></i>
+                    <h5>بحث عن وظائف</h5>
+                    <p class="mb-0">ابحث عن وظائف جديدة</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="quick-action-card" onclick="toggleAutoApply()">
+                    <i class="bi bi-robot"></i>
+                    <h5>التقديم التلقائي</h5>
+                    <p class="mb-0">تفعيل البحث الذكي</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="quick-action-card" onclick="window.location.href='profile.html'">
+                    <i class="bi bi-person-gear"></i>
+                    <h5>تحديث الملف</h5>
+                    <p class="mb-0">تحسين السيرة الذاتية</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Chart Section -->
+            <div class="col-lg-8 mb-4" data-aos="fade-up">
+                <div class="chart-container">
+                    <h5 class="mb-4">إحصائيات التقديمات</h5>
+                    <canvas id="applicationsChart" height="100"></canvas>
+                </div>
+            </div>
+            
+            <!-- Progress Section -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up">
+                <div class="chart-container">
+                    <h5 class="mb-4 text-center">معدل النجاح</h5>
+                    <div class="progress-ring">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                    <div class="text-center mt-3">
+                        <h3 class="fw-bold">85%</h3>
+                        <p class="text-muted">معدل الرد الإيجابي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Recent Applications -->
+            <div class="col-lg-8 mb-4" data-aos="fade-up">
+                <div class="chart-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0">آخر التقديمات</h5>
+                        <a href="search.html" class="btn btn-sm btn-outline-primary">عرض الكل</a>
+                    </div>
+                    
+                    <div class="job-card applied">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Senior Frontend Developer</h6>
+                                <p class="text-muted mb-1">شركة التقنية المتقدمة - الرياض</p>
+                                <small class="text-muted">منذ ساعتين</small>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <span class="status-badge applied">تم التقديم</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card interview">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Full Stack Engineer</h6>
+                                <p class="text-muted mb-1">شركة الحلول الرقمية - جدة</p>
+                                <small class="text-muted">مقابلة غداً الساعة 2 م</small>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <span class="status-badge interview">مقابلة</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card new">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">React Developer</h6>
+                                <p class="text-muted mb-1">شركة النموذجية - الدمام</p>
+                                <small class="text-muted">منذ 5 ساعات</small>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <span class="status-badge new">جديد</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card rejected">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Python Developer</h6>
+                                <p class="text-muted mb-1">شركة البرمجيات المبتكرة - الرياض</p>
+                                <small class="text-muted">منذ يوم</small>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <span class="status-badge rejected">مرفوض</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activity Feed -->
+            <div class="col-lg-4 mb-4" data-aos="fade-up">
+                <div class="chart-container">
+                    <h5 class="mb-4">النشاط الأخير</h5>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">تم التقديم على وظيفة</h6>
+                            <small class="text-muted">Senior Frontend Developer - منذ ساعتين</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon warning">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">مقابلة مجدولة</h6>
+                            <small class="text-muted">Full Stack Engineer - غداً الساعة 2 م</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">تمت مشاهدة السيرة الذاتية</h6>
+                            <small class="text-muted">شركة التقنية المتقدمة - منذ 3 ساعات</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <i class="bi bi-plus-circle"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">وظيفة جديدة مطابقة</h6>
+                            <small class="text-muted">React Developer - منذ 5 ساعات</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <i class="bi bi-download"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">تم تحديث السيرة الذاتية</h6>
+                            <small class="text-muted">منذ يوم</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        
+        // Check authentication
+        requireAuth();
+        
+        // Applications Chart
+        const ctx = document.getElementById('applicationsChart').getContext('2d');
+        const applicationsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                datasets: [{
+                    label: 'التقديمات',
+                    data: [12, 19, 15, 25, 22, 30, 28],
+                    borderColor: 'rgb(102, 126, 234)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'المشاهدات',
+                    data: [8, 12, 10, 18, 15, 20, 17],
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // Progress Chart
+        const progressCtx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(progressCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['معدل النجاح', 'المتبقي'],
+                datasets: [{
+                    data: [85, 15],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(233, 236, 239, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                }
+            }
+        });
+        
+        // Toggle Auto Apply
+        function toggleAutoApply() {
+            const isEnabled = localStorage.getItem('autoApplyEnabled') === 'true';
+            
+            if (isEnabled) {
+                localStorage.setItem('autoApplyEnabled', 'false');
+                showAlert('تم إيقاف التقديم التلقائي', 'info');
+            } else {
+                localStorage.setItem('autoApplyEnabled', 'true');
+                showAlert('تم تفعيل التقديم التلقائي', 'success');
+                
+                // Simulate auto-apply process
+                setTimeout(() => {
+                    showAlert('جاري البحث عن وظائف مطابقة...', 'info');
+                }, 1000);
+            }
+        }
+        
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update random stat
+            const stats = document.querySelectorAll('.stat-card h3');
+            const randomStat = stats[Math.floor(Math.random() * stats.length)];
+            const currentValue = parseInt(randomStat.textContent);
+            const change = Math.random() > 0.5 ? 1 : 0;
+            
+            if (change && Math.random() > 0.7) {
+                randomStat.textContent = currentValue + 1;
+                
+                // Add pulse animation
+                randomStat.style.animation = 'pulse 0.5s ease';
+                setTimeout(() => {
+                    randomStat.style.animation = '';
+                }, 500);
+            }
+        }, 30000); // Every 30 seconds
+        
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // Simulate API call
+                const data = {
+                    totalApplications: 127,
+                    views: 45,
+                    interviews: 8,
+                    successRate: 85,
+                    recentApplications: [
+                        {
+                            title: 'Senior Frontend Developer',
+                            company: 'شركة التقنية المتقدمة',
+                            location: 'الرياض',
+                            status: 'applied',
+                            time: 'منذ ساعتين'
+                        }
+                    ]
+                };
+                
+                // Update UI with data
+                console.log('Dashboard data loaded:', data);
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+        
+        // Initialize dashboard
+        loadDashboardData();
+        
+        // Check for new notifications
+        function checkNotifications() {
+            const notifications = [
+                {
+                    title: 'وظيفة جديدة مطابقة',
+                    message: 'React Developer في شركة النموذجية',
+                    type: 'info'
+                }
+            ];
+            
+            // Show notification if any
+            if (notifications.length > 0 && Math.random() > 0.8) {
+                const notification = notifications[0];
+                showNotification(notification.title, notification.message, notification.type);
+            }
+        }
+        
+        // Check notifications every 2 minutes
+        setInterval(checkNotifications, 120000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد - JobPilot</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/register.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="register-container" data-aos="fade-up">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <i class="bi bi-rocket-takeoff display-4 text-primary mb-3"></i>
+                <h2 class="fw-bold">ابحث عن وظيفتك تلقائياً</h2>
+                <p class="text-muted">انضم إلى آلاف الباحثين عن عمل</p>
+                <div class="header-actions">
+                    <button class="job-seeker-btn" onclick="window.location.href='job-seeker.html'">
+                        <i class="bi bi-person-workspace"></i>
+                        باحث عن عمل
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Action Boxes -->
+            <div class="register-quick-actions">
+                <div class="register-action-box" onclick="window.location.href='ai-system.html'">
+                    <div class="register-action-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h4>نظام AI</h4>
+                    <p>ارفع سيرتك الذاتية واحصل على وظائف مطابقة تلقائياً</p>
+                </div>
+                
+                <div class="register-action-box" onclick="window.location.href='search-hero-separated.html'">
+                    <div class="register-action-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h4>بحث سريع</h4>
+                    <p>ابحث عن وظائف وتقدم فوراً باستخدام محرك البحث</p>
+                </div>
+                
+                <div class="register-action-box" onclick="window.location.href='search-real.html'">
+                    <div class="register-action-icon">
+                        <i class="bi bi-linkedin"></i>
+                    </div>
+                    <h4>بحث LinkedIn</h4>
+                    <p>ابحث عن وظائف حقيقية من LinkedIn و Indeed</p>
+                </div>
+            </div>
+            
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-step active" data-step="1">1</div>
+                <div class="progress-step" data-step="2">2</div>
+                <div class="progress-step" data-step="3">3</div>
+            </div>
+            
+            <form id="registerForm">
+                <!-- Step 1: Basic Information -->
+                <div class="form-section active" id="step1">
+                    <h4 class="mb-4"><i class="bi bi-person me-2"></i>المعلومات الأساسية</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="firstName" placeholder="الاسم الأول" required>
+                                <label for="firstName">الاسم الأول</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="lastName" placeholder="الاسم الأخير" required>
+                                <label for="lastName">الاسم الأخير</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                        <label for="email"><i class="bi bi-envelope me-2"></i>البريد الإلكتروني</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" id="phone" placeholder="رقم الهاتف" required>
+                        <label for="phone"><i class="bi bi-phone me-2"></i>رقم الهاتف</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="password" class="form-control" id="password" placeholder="كلمة المرور" required>
+                        <label for="password"><i class="bi bi-lock me-2"></i>كلمة المرور</label>
+                        <span class="password-toggle" onclick="togglePassword('password')">
+                            <i class="bi bi-eye" id="passwordIcon"></i>
+                        </span>
+                        <div class="password-strength" id="passwordStrength"></div>
+                    </div>
+                    
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="تأكيد كلمة المرور" required>
+                        <label for="confirmPassword"><i class="bi bi-lock-fill me-2"></i>تأكيد كلمة المرور</label>
+                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                            <i class="bi bi-eye" id="confirmPasswordIcon"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Professional Information -->
+                <div class="form-section" id="step2">
+                    <h4 class="mb-4"><i class="bi bi-briefcase me-2"></i>المعلومات المهنية</h4>
+                    
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="experienceLevel" required>
+                            <option value="">اختر مستوى الخبرة</option>
+                            <option value="junior">مبتدئ (0-2 سنوات)</option>
+                            <option value="mid">متوسط (2-5 سنوات)</option>
+                            <option value="senior">خبير (5-10 سنوات)</option>
+                            <option value="expert">خبير جداً (10+ سنوات)</option>
+                        </select>
+                        <label for="experienceLevel">مستوى الخبرة</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="jobType" required>
+                            <option value="">نوع الوظيفة</option>
+                            <option value="full-time">دوام كامل</option>
+                            <option value="part-time">دوام جزئي</option>
+                            <option value="remote">عن بعد</option>
+                            <option value="hybrid">مختلط</option>
+                            <option value="contract">عقد</option>
+                        </select>
+                        <label for="jobType">نوع الوظيفة المفضل</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="currentTitle" placeholder="المسمى الوظيفي الحالي">
+                        <label for="currentTitle">المسمى الوظيفي الحالي</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="url" class="form-control" id="linkedin" placeholder="رابط ملف LinkedIn">
+                        <label for="linkedin"><i class="bi bi-linkedin me-2"></i>ملف LinkedIn</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="url" class="form-control" id="github" placeholder="رابط ملف GitHub">
+                        <label for="github"><i class="bi bi-github me-2"></i>ملف GitHub</label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">المهارات</label>
+                        <div class="skills-container">
+                            <div class="skill-tag" data-skill="JavaScript">JavaScript</div>
+                            <div class="skill-tag" data-skill="Python">Python</div>
+                            <div class="skill-tag" data-skill="React">React</div>
+                            <div class="skill-tag" data-skill="Node.js">Node.js</div>
+                            <div class="skill-tag" data-skill="Django">Django</div>
+                            <div class="skill-tag" data-skill="SQL">SQL</div>
+                            <div class="skill-tag" data-skill="MongoDB">MongoDB</div>
+                            <div class="skill-tag" data-skill="Docker">Docker</div>
+                            <div class="skill-tag" data-skill="AWS">AWS</div>
+                            <div class="skill-tag" data-skill="Git">Git</div>
+                        </div>
+                        <input type="hidden" id="selectedSkills" name="selectedSkills">
+                    </div>
+                </div>
+                
+                <!-- Step 3: Additional Information -->
+                <div class="form-section" id="step3">
+                    <h4 class="mb-4"><i class="bi bi-geo-alt me-2"></i>الموقع والتفضيلات</h4>
+                    
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="country" required>
+                            <option value="">اختر الدولة</option>
+                            <option value="SA">السعودية</option>
+                            <option value="AE">الإمارات</option>
+                            <option value="EG">مصر</option>
+                            <option value="JO">الأردن</option>
+                            <option value="QA">قطر</option>
+                            <option value="KW">الكويت</option>
+                            <option value="BH">البحرين</option>
+                            <option value="OM">عمان</option>
+                        </select>
+                        <label for="country">الدولة</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="city" placeholder="المدينة" required>
+                        <label for="city">المدينة</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="industry" required>
+                            <option value="">اختر المجال</option>
+                            <option value="technology">التقنية والبرمجيات</option>
+                            <option value="marketing">التسويق</option>
+                            <option value="sales">المبيعات</option>
+                            <option value="finance">المالية والمحاسبة</option>
+                            <option value="hr">الموارد البشرية</option>
+                            <option value="design">التصميم</option>
+                            <option value="healthcare">الرعاية الصحية</option>
+                            <option value="education">التعليم</option>
+                        </select>
+                        <label for="industry">المجال المهني</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="bio" placeholder="نبذة عنك" style="height: 100px"></textarea>
+                        <label for="bio">نبذة عنك (اختياري)</label>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="newsletter">
+                        <label class="form-check-label" for="newsletter">
+                            أرغب في تلقي نشرات وظائف يومية
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="terms" required>
+                        <label class="form-check-label" for="terms">
+                            أوافق على <a href="#" class="text-decoration-none">الشروط والأحكام</a> و <a href="#" class="text-decoration-none">سياسة الخصوصية</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-outline-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+                        <i class="bi bi-arrow-right me-2"></i>السابق
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">
+                        التالي<i class="bi bi-arrow-left me-2"></i>
+                    </button>
+                    <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                        <i class="bi bi-check-circle me-2"></i>إنشاء الحساب
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-4">
+                <p class="mb-0">لديك حساب بالفعل؟ <a href="login.html" class="text-decoration-none fw-bold">تسجيل الدخول</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="js/register.js"></script>
+<script>
+// Check if user data exists on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = localStorage.getItem('userData');
+    
+    if (!userData) {
+        // No user data found, redirect to AI system for registration
+        window.location.href = 'ai-system.html';
+    }
+    // If user data exists, stay on this page (register.html)
+});
+</script>
+    
+</body>
+</html>

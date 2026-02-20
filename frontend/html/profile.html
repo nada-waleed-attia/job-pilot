@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - JobPilot</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/profile.css">
+    
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6rem 0 3rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+        }
+        
+        .profile-nav {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-nav .nav-link {
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .profile-nav .nav-link:hover {
+            background: #f8f9fa;
+            color: var(--primary-color);
+        }
+        
+        .profile-nav .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .profile-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .profile-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #f8f9fa;
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(13, 110, 253, 0.1);
+        }
+        
+        .skill-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .skill-badge .remove-skill {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        
+        .completion-meter {
+            height: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .completion-meter .progress {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 1s ease;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-nav .nav-link {
+                margin: 2px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="bi bi-rocket-takeoff"></i> JobPilot
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="profile.html">الملف الشخصي</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search.html">البحث عن وظائف</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Secondary Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" id="secondaryNav">
+        <div class="container">
+            <div class="d-flex justify-content-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="login.html">
+                            <i class="bi bi-box-arrow-in-left me-1"></i> تسجيل الدخول
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i> إنشاء حساب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="search.html">
+                            <i class="bi bi-search me-1"></i> البحث عن وظائف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i> لوحة التحكم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="profile.html">
+                            <i class="bi bi-person me-1"></i> الملف الشخصي
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                    <img src="https://picsum.photos/seed/avatar/120/120" alt="Profile Avatar" class="profile-avatar" id="profileAvatar">
+                    <button class="btn btn-sm btn-light mt-2" onclick="document.getElementById('avatarInput').click()">
+                        <i class="bi bi-camera"></i> تغيير
+                    </button>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event)">
+                </div>
+                <div class="col-md-10">
+                    <h1 class="display-5 fw-bold mb-2" id="profileName">أحمد محمد</h1>
+                    <p class="lead mb-3" id="profileTitle">مطور Full Stack</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <span><i class="bi bi-envelope me-1"></i> ahmed@example.com</span>
+                        <span><i class="bi bi-phone me-1"></i> +966 50 123 4567</span>
+                        <span><i class="bi bi-geo-alt me-1"></i> الرياض، السعودية</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Completion -->
+            <div class="row mt-4">
+                <div class="col-md-8">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>اكتمال الملف الشخصي</span>
+                        <span class="fw-bold" id="completionPercentage">75%</span>
+                    </div>
+                    <div class="completion-meter">
+                        <div class="progress" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <span class="badge bg-warning">ممتاز!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Profile Navigation -->
+        <div class="profile-nav" data-aos="fade-up">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-section="personal">
+                        <i class="bi bi-person me-2"></i>المعلومات الشخصية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-section="professional">
+                        <i class="bi bi-briefcase me-2"></i>المعلومات المهنية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-section="documents">
+                        <i class="bi bi-file-earmark-text me-2"></i>السيرة الذاتية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-section="preferences">
+                        <i class="bi bi-gear me-2"></i>التفضيلات
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Personal Information Section -->
+        <div class="profile-section active" id="personal">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">
+                        <i class="bi bi-person me-2"></i>المعلومات الشخصية
+                    </h4>
+                    
+                    <form id="personalForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الاسم الأول</label>
+                                <input type="text" class="form-control" id="firstName" value="أحمد">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الاسم الأخير</label>
+                                <input type="text" class="form-control" id="lastName" value="محمد">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" id="email" value="ahmed@example.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">رقم الهاتف</label>
+                                <input type="tel" class="form-control" id="phone" value="+966 50 123 4567">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الدولة</label>
+                                <select class="form-select" id="country">
+                                    <option value="SA" selected>السعودية</option>
+                                    <option value="AE">الإمارات</option>
+                                    <option value="EG">مصر</option>
+                                    <option value="JO">الأردن</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">المدينة</label>
+                                <input type="text" class="form-control" id="city" value="الرياض">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">نبذة عنك</label>
+                            <textarea class="form-control" id="bio" rows="4">مطور Full Stack بخبرة 5 سنوات في تطوير تطبيقات الويب باستخدام React و Node.js. شغوف بالتقنية والتعلم المستمر.</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>حفظ التغييرات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Professional Information Section -->
+        <div class="profile-section" id="professional">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">
+                        <i class="bi bi-briefcase me-2"></i>المعلومات المهنية
+                    </h4>
+                    
+                    <form id="professionalForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">المسمى الوظيفي الحالي</label>
+                                <input type="text" class="form-control" id="currentTitle" value="مطور Full Stack">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">مستوى الخبرة</label>
+                                <select class="form-select" id="experienceLevel">
+                                    <option value="junior">مبتدئ (0-2 سنوات)</option>
+                                    <option value="mid" selected>متوسط (2-5 سنوات)</option>
+                                    <option value="senior">خبير (5-10 سنوات)</option>
+                                    <option value="expert">خبير جداً (10+ سنوات)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">المجال المهني</label>
+                                <select class="form-select" id="industry">
+                                    <option value="technology" selected>التقنية والبرمجيات</option>
+                                    <option value="marketing">التسويق</option>
+                                    <option value="sales">المبيعات</option>
+                                    <option value="finance">المالية والمحاسبة</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">سنوات الخبرة</label>
+                                <input type="number" class="form-control" id="yearsExperience" value="5">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">ملف LinkedIn</label>
+                                <input type="url" class="form-control" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">ملف GitHub</label>
+                                <input type="url" class="form-control" id="github" placeholder="https://github.com/yourusername">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">المهارات</label>
+                            <div class="skills-container mb-3">
+                                <div class="skill-badge">
+                                    JavaScript
+                                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                                </div>
+                                <div class="skill-badge">
+                                    React
+                                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                                </div>
+                                <div class="skill-badge">
+                                    Node.js
+                                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                                </div>
+                                <div class="skill-badge">
+                                    Python
+                                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                                </div>
+                                <div class="skill-badge">
+                                    MongoDB
+                                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newSkill" placeholder="أضف مهارة جديدة">
+                                <button class="btn btn-outline-primary" type="button" onclick="addSkill()">
+                                    <i class="bi bi-plus-circle"></i> إضافة
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>حفظ التغييرات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Documents Section -->
+        <div class="profile-section" id="documents">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">
+                        <i class="bi bi-file-earmark-text me-2"></i>السيرة الذاتية والوثائق
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h5>السيرة الذاتية</h5>
+                            <div class="upload-area" id="cvUploadArea" onclick="document.getElementById('cvInput').click()">
+                                <i class="bi bi-cloud-upload display-4 text-muted mb-3"></i>
+                                <h6>ارفع سيرتك الذاتية</h6>
+                                <p class="text-muted">اسحب الملف هنا أو انقر للاختيار</p>
+                                <small class="text-muted">PDF, DOC, DOCX (الحد الأقصى: 5MB)</small>
+                                <input type="file" id="cvInput" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleCVUpload(event)">
+                            </div>
+                            <div id="cvPreview" class="mt-3" style="display: none;">
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    <span id="cvFileName"></span>
+                                    <button class="btn btn-sm btn-danger float-start" onclick="removeCV()">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <h5>رسالة التعريف</h5>
+                            <div class="upload-area" id="clUploadArea" onclick="document.getElementById('clInput').click()">
+                                <i class="bi bi-file-text display-4 text-muted mb-3"></i>
+                                <h6>ارفع رسالة التعريف</h6>
+                                <p class="text-muted">اختياري - يمكنك إنشاء واحدة تلقائياً</p>
+                                <small class="text-muted">PDF, DOC, DOCX (الحد الأقصى: 5MB)</small>
+                                <input type="file" id="clInput" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleCLUpload(event)">
+                            </div>
+                            <div id="clPreview" class="mt-3" style="display: none;">
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    <span id="clFileName"></span>
+                                    <button class="btn btn-sm btn-danger float-start" onclick="removeCL()">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn btn-success" onclick="generateCoverLetter()">
+                            <i class="bi bi-magic me-2"></i>إنشاء رسالة تعريف تلقائياً
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preferences Section -->
+        <div class="profile-section" id="preferences">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">
+                        <i class="bi bi-gear me-2"></i>تفضيلات البحث عن وظائف
+                    </h4>
+                    
+                    <form id="preferencesForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">نوع الوظيفة المفضل</label>
+                                <select class="form-select" id="preferredJobType">
+                                    <option value="full-time" selected>دوام كامل</option>
+                                    <option value="part-time">دوام جزئي</option>
+                                    <option value="remote">عن بعد</option>
+                                    <option value="hybrid">مختلط</option>
+                                    <option value="contract">عقد</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الراتب المتوقع</label>
+                                <input type="number" class="form-control" id="expectedSalary" placeholder="بالريال السعودي">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الدول المفضلة</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="sa" checked>
+                                    <label class="form-check-label" for="sa">السعودية</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="ae">
+                                    <label class="form-check-label" for="ae">الإمارات</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="eg">
+                                    <label class="form-check-label" for="eg">مصر</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">الإشعارات</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                                    <label class="form-check-label" for="emailNotif">إشعارات البريد الإلكتروني</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dailyDigest">
+                                    <label class="form-check-label" for="dailyDigest">ملخص يومي للوظائف</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="autoApply">
+                                    <label class="form-check-label" for="autoApply">التقديم التلقائي على الوظائف المناسبة</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">الكلمات المفتاحية للبحث</label>
+                            <input type="text" class="form-control" id="keywords" placeholder="مثال: React, Node.js, Python" value="React, Node.js, Python">
+                            <small class="text-muted">افصل بين الكلمات بفاصلة</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>حفظ التفضيلات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="row mt-5">
+            <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <i class="bi bi-briefcase-fill text-primary"></i>
+                    <h3 class="fw-bold">127</h3>
+                    <p class="text-muted">وظيفة متقدمة عليها</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card">
+                    <i class="bi bi-eye-fill text-success"></i>
+                    <h3 class="fw-bold">45</h3>
+                    <p class="text-muted">تمت مشاهدتها</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card">
+                    <i class="bi bi-calendar-check-fill text-warning"></i>
+                    <h3 class="fw-bold">8</h3>
+                    <p class="text-muted">مقابلات</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card">
+                    <i class="bi bi-graph-up-fill text-info"></i>
+                    <h3 class="fw-bold">85%</h3>
+                    <p class="text-muted">معدل النجاح</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        
+        // Check authentication
+        requireAuth();
+        
+        // Profile navigation
+        document.querySelectorAll('.profile-nav .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav
+                document.querySelectorAll('.profile-nav .nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = this.dataset.section;
+                document.querySelectorAll('.profile-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+        
+        // Handle avatar change
+        function handleAvatarChange(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileAvatar').src = e.target.result;
+                    showAlert('تم تحديث الصورة الشخصية', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Handle CV upload
+        function handleCVUpload(event) {
+            const file = handleFileUpload(event.target);
+            if (file) {
+                document.getElementById('cvFileName').textContent = file.name;
+                document.getElementById('cvPreview').style.display = 'block';
+                showAlert('تم رفع السيرة الذاتية بنجاح', 'success');
+            }
+        }
+        
+        // Handle Cover Letter upload
+        function handleCLUpload(event) {
+            const file = handleFileUpload(event.target);
+            if (file) {
+                document.getElementById('clFileName').textContent = file.name;
+                document.getElementById('clPreview').style.display = 'block';
+                showAlert('تم رفع رسالة التعريف بنجاح', 'success');
+            }
+        }
+        
+        // Remove CV
+        function removeCV() {
+            document.getElementById('cvPreview').style.display = 'none';
+            document.getElementById('cvInput').value = '';
+            showAlert('تم حذف السيرة الذاتية', 'info');
+        }
+        
+        // Remove Cover Letter
+        function removeCL() {
+            document.getElementById('clPreview').style.display = 'none';
+            document.getElementById('clInput').value = '';
+            showAlert('تم حذف رسالة التعريف', 'info');
+        }
+        
+        // Generate cover letter
+        function generateCoverLetter() {
+            showAlert('جاري إنشاء رسالة التعريف التلقائية...', 'info');
+            setTimeout(() => {
+                showAlert('تم إنشاء رسالة التعريف بنجاح!', 'success');
+            }, 2000);
+        }
+        
+        // Add skill
+        function addSkill() {
+            const skillInput = document.getElementById('newSkill');
+            const skillName = skillInput.value.trim();
+            
+            if (skillName) {
+                const skillsContainer = document.querySelector('.skills-container');
+                const skillBadge = document.createElement('div');
+                skillBadge.className = 'skill-badge';
+                skillBadge.innerHTML = `
+                    ${skillName}
+                    <span class="remove-skill" onclick="removeSkill(this)">×</span>
+                `;
+                skillsContainer.appendChild(skillBadge);
+                skillInput.value = '';
+                showAlert('تم إضافة المهارة بنجاح', 'success');
+            }
+        }
+        
+        // Remove skill
+        function removeSkill(element) {
+            element.parentElement.remove();
+        }
+        
+        // Handle form submissions
+        document.getElementById('personalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showAlert('تم حفظ المعلومات الشخصية', 'success');
+        });
+        
+        document.getElementById('professionalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showAlert('تم حفظ المعلومات المهنية', 'success');
+        });
+        
+        document.getElementById('preferencesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showAlert('تم حفظ التفضيلات', 'success');
+        });
+        
+        // Drag and drop for file uploads
+        const cvUploadArea = document.getElementById('cvUploadArea');
+        const clUploadArea = document.getElementById('clUploadArea');
+        
+        [cvUploadArea, clUploadArea].forEach(area => {
+            area.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            area.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            
+            area.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const input = this.querySelector('input[type="file"]');
+                    input.files = files;
+                    const event = new Event('change', { bubbles: true });
+                    input.dispatchEvent(event);
+                }
+            });
+        });
+        
+        // Add skill on Enter key
+        document.getElementById('newSkill').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
+    </script>
+</body>
+</html>

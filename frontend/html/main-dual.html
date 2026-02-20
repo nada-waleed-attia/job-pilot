@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot AI - منصة الوظائف الذكية</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/main-dual.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo">
+      <i class="bi bi-cpu-fill"></i>
+      <span>JobPilot AI</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#home" class="nav-link active">الرئيسية</a>
+      <a href="#job-seekers" class="nav-link">باحث عن عمل</a>
+      <a href="#employers" class="nav-link">صاحب عمل</a>
+      <a href="#simple-search" class="nav-link">بحث سريع</a>
+      <a href="#linkedin-search" class="nav-link">بحث LinkedIn</a>
+    </nav>
+    <div class="header-buttons">
+      <button class="job-seeker-btn" onclick="window.location.href='job-seeker.html'">
+        <i class="bi bi-person-workspace"></i>
+        باحث عن عمل
+      </button>
+      <button class="employer-btn" onclick="window.location.href='employer-registration.html'">
+        <i class="bi bi-building"></i>
+        صاحب عمل
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- User Type Selection -->
+<section id="home" class="user-type-section">
+  <div class="container">
+    <div class="selection-header">
+      <h1>مرحباً بك في JobPilot AI</h1>
+      <p>اختر نوعك لتبدأ رحلتك المهنية</p>
+    </div>
+    
+    <div class="user-type-cards">
+      <!-- Job Seeker Card -->
+      <div class="user-type-card" onclick="goToJobSeekers()">
+        <div class="card-icon">
+          <i class="bi bi-person-briefcase"></i>
+        </div>
+        <h3>باحث عن عمل</h3>
+        <p>ابحث عن وظيفة أحلامك ودع الذكاء الاصطناعي يتقدم عليها تلقائياً</p>
+        <ul class="features-list">
+          <li><i class="bi bi-check-circle-fill"></i> تحليل ذكي للسيرة الذاتية</li>
+          <li><i class="bi bi-check-circle-fill"></i> مطابقة تلقائية للوظائف</li>
+          <li><i class="bi bi-check-circle-fill"></i> تقديم فوري على أفضل الفرص</li>
+          <li><i class="bi bi-check-circle-fill"></i> تتبع حالة التقديمات</li>
+        </ul>
+        <button class="card-btn">
+          <i class="bi bi-arrow-left"></i>
+          ابدأ البحث عن وظيفة
+        </button>
+      </div>
+      
+      <!-- Employer Card -->
+      <div class="user-type-card" onclick="goToEmployers()">
+        <div class="card-icon employer-icon">
+          <i class="bi bi-building"></i>
+        </div>
+        <h3>صاحب عمل</h3>
+        <p>انشر وظائفك واجد أفضل المرشحين باستخدام الذكاء الاصطناعي</p>
+        <ul class="features-list">
+          <li><i class="bi bi-check-circle-fill"></i> نشر وظائف متعددة</li>
+          <li><i class="bi bi-check-circle-fill"></i> فلترة المرشحين ذكياً</li>
+          <li><i class="bi bi-check-circle-fill"></i> مطابقة السير الذاتية</li>
+          <li><i class="bi bi-check-circle-fill"></i> تواصل مباشر مع الأفضل</li>
+        </ul>
+        <button class="card-btn employer-btn">
+          <i class="bi bi-plus-circle"></i>
+          انشر وظيفة الآن
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">50,000+</div>
+        <div class="stat-label">باحث عن عمل</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5,000+</div>
+        <div class="stat-label">صاحب عمل</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100,000+</div>
+        <div class="stat-label">وظيفة متاحة</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">معدل النجاح</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+  <div class="container">
+    <h2>كيف يعمل JobPilot AI؟</h2>
+    <div class="works-grid">
+      <div class="work-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>إنشاء حساب</h3>
+          <p>سجل كحسابك كباحث عن عمل أو صاحب عمل</p>
+        </div>
+      </div>
+      
+      <div class="work-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>إدخال البيانات</h3>
+          <p>للباحثين: أدخل بياناتك وارفع سيرتك الذاتية</p>
+          <p>لأصحاب العمل: انشر وظائفك ومتطلباتك</p>
+        </div>
+      </div>
+      
+      <div class="work-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>تحليل ذكي</h3>
+          <p>الذكاء الاصطناعي يحلل البيانات ويجد أفضل المطابقات</p>
+        </div>
+      </div>
+      
+      <div class="work-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>تواصل مباشر</h3>
+          <p>تقديم تلقائي أو اختيار المرشحين المثاليين</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>JobPilot AI</h4>
+        <p>منصة ذكية تربط الباحثين عن عمل بأصحاب العمل باستخدام الذكاء الاصطناعي</p>
+        <div class="social-links">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#job-seekers">باحث عن عمل</a></li>
+          <li><a href="#employers">صاحب عمل</a></li>
+          <li><a href="#simple-search">بحث سريع</a></li>
+          <li><a href="#linkedin-search">بحث LinkedIn</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>الدعم</h4>
+        <ul>
+          <li><a href="#">مركز المساعدة</a></li>
+          <li><a href="#">الأسئلة الشائعة</a></li>
+          <li><a href="#">اتصل بنا</a></li>
+          <li><a href="#">الشروط والأحكام</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>تواصل معنا</h4>
+        <p><i class="bi bi-envelope"></i> info@jobpilot.ai</p>
+        <p><i class="bi bi-phone"></i> +966 50 123 4567</p>
+        <p><i class="bi bi-geo-alt"></i> الرياض، المملكة العربية السعودية</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 JobPilot AI. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main-dual.js"></script>
+<script>
+// Check if user data exists on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = localStorage.getItem('userData');
+    
+    if (!userData) {
+        // No user data found, redirect to AI system for registration
+        window.location.href = 'ai-system.html';
+    }
+    // If user data exists, stay on this page (main-dual.html)
+});
+</script>
+</body>
+</html>

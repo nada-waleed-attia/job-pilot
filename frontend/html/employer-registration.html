@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل صاحب عمل - JobPilot AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/employer-registration.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo">
+      <i class="bi bi-cpu-fill"></i>
+      <span>JobPilot AI</span>
+    </div>
+    <nav class="main-nav">
+      <a href="main-dual.html" class="nav-link">الرئيسية</a>
+      <a href="#" class="nav-link active">صاحب عمل</a>
+    </nav>
+    <div class="header-buttons">
+      <button class="login-btn" onclick="window.location.href='main-dual.html'">العودة</button>
+    </div>
+  </div>
+</header>
+
+<!-- Registration Section -->
+<section class="employer-registration">
+  <div class="container">
+    <div class="registration-header">
+      <h2>
+        <i class="bi bi-building"></i>
+        تسجيل صاحب العمل
+      </h2>
+      <p>انضم إلى منصتنا واجد أفضل المواهب باستخدام الذكاء الاصطناعي</p>
+    </div>
+
+    <!-- Quick Actions Boxes -->
+    <div class="quick-actions">
+      <div class="action-box" onclick="window.location.href='employer-dashboard.html'">
+        <div class="action-icon">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <h4>لوحة التحكم</h4>
+        <p>إدارة الوظائف والمتقدمين</p>
+      </div>
+      
+      <div class="action-box" onclick="window.location.href='employer-jobs.html'">
+        <div class="action-icon">
+          <i class="bi bi-briefcase"></i>
+        </div>
+        <h4>وظائفي</h4>
+        <p>عرض وإدارة جميع الوظائف المنشورة</p>
+      </div>
+      
+      <div class="action-box" onclick="window.location.href='employer-candidates.html'">
+        <div class="action-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <h4>المتقدمين</h4>
+        <p>مراجعة السير الذاتية والتواصل</p>
+      </div>
+    </div>
+
+    <div class="registration-form">
+      <div class="form-grid">
+        <!-- Company Information -->
+        <div class="form-section">
+          <h3>معلومات الشركة</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>اسم الشركة *</label>
+              <input type="text" id="companyName" placeholder="أدخل اسم الشركة">
+            </div>
+            <div class="form-group">
+              <label>المجال *</label>
+              <select id="companyIndustry">
+                <option value="">اختر المجال</option>
+                <option value="technology">التقنية</option>
+                <option value="finance">التمويل والمحاسبة</option>
+                <option value="healthcare">الرعاية الصحية</option>
+                <option value="education">التعليم</option>
+                <option value="retail">التجزئة</option>
+                <option value="manufacturing">التصنيع</option>
+                <option value="consulting">الاستشارات</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>حجم الشركة *</label>
+              <select id="companySize">
+                <option value="">اختر الحجم</option>
+                <option value="startup">ناشئة (1-10 موظفين)</option>
+                <option value="small">صغيرة (11-50 موظف)</option>
+                <option value="medium">متوسطة (51-200 موظف)</option>
+                <option value="large">كبيرة (201-500 موظف)</option>
+                <option value="enterprise">مؤسسة كبيرة (500+ موظف)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>الموقع الرئيسي *</label>
+              <select id="companyLocation">
+                <option value="">اختر المدينة</option>
+                <option value="riyadh">الرياض</option>
+                <option value="jeddah">جدة</option>
+                <option value="dammam">الدمام</option>
+                <option value="makkah">مكة</option>
+                <option value="madinah">المدينة المنورة</option>
+                <option value="khobar">الخبر</option>
+                <option value="tabuk">تبوك</option>
+                <option value="abha">أبها</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label>وصف الشركة</label>
+              <textarea id="companyDescription" placeholder="اكتب وصف موجز لشركتك وأنشطتها"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+          <h3>معلومات الاتصال</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>الاسم الكامل *</label>
+              <input type="text" id="contactName" placeholder="اسم مدير الموارد البشرية">
+            </div>
+            <div class="form-group">
+              <label>المنصب *</label>
+              <input type="text" id="contactPosition" placeholder="مدير الموارد البشرية">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>البريد الإلكتروني *</label>
+              <input type="email" id="companyEmail" placeholder="hr@company.com">
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف *</label>
+              <input type="tel" id="companyPhone" placeholder="+966 5X XXX XXXX">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label>الموقع الإلكتروني</label>
+              <input type="url" id="companyWebsite" placeholder="https://www.company.com">
+            </div>
+          </div>
+        </div>
+
+        <!-- Hiring Preferences -->
+        <div class="form-section">
+          <h3>تفضيلات التوظيف</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>عدد الموظفين المطلوبين</label>
+              <input type="number" id="hiringCount" placeholder="5">
+            </div>
+            <div class="form-group">
+              <label>نوع التوظيف</label>
+              <select id="hiringType">
+                <option value="">اختر النوع</option>
+                <option value="permanent">دائم</option>
+                <option value="contract">عقد</option>
+                <option value="temporary">مؤقت</option>
+                <option value="internship">تدريب</option>
+                <option value="freelance">عمل حر</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>المستوى الوظيفي المطلوب</label>
+              <select id="experienceLevel">
+                <option value="">اختر المستوى</option>
+                <option value="entry">مبتدئ</option>
+                <option value="junior">مبتدئ</option>
+                <option value="mid">متوسط</option>
+                <option value="senior">خبير</option>
+                <option value="executive">تنفيذي</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>نطاق الراتب (ريال)</label>
+              <select id="salaryRange">
+                <option value="">اختر النطاق</option>
+                <option value="3000-5000">3,000 - 5,000</option>
+                <option value="5000-8000">5,000 - 8,000</option>
+                <option value="8000-12000">8,000 - 12,000</option>
+                <option value="12000-18000">12,000 - 18,000</option>
+                <option value="18000-25000">18,000 - 25,000</option>
+                <option value="25000+">25,000+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label>المهارات المطلوبة</label>
+              <textarea id="requiredSkills" placeholder="أدخل المهارات المطلوبة مفصولة بفواصل (مثال: JavaScript, Project Management, Communication)"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company Logo Upload -->
+        <div class="form-section">
+          <h3>شعار الشركة</h3>
+          <div class="logo-upload-area">
+            <input type="file" id="logoInput" accept="image/*" style="display: none;">
+            <div class="logo-drop-zone" id="logoDropZone">
+              <div class="logo-upload-icon">
+                <i class="bi bi-image"></i>
+              </div>
+              <h4>ارفع شعار الشركة</h4>
+              <p>اسحب الصورة هنا أو اضغط للاختيار</p>
+              <p class="file-types">(JPG, PNG, GIF - الحد الأقصى 2MB)</p>
+              <button class="logo-upload-btn" onclick="document.getElementById('logoInput').click()">
+                <i class="bi bi-folder2-open"></i>
+                اختر صورة
+              </button>
+            </div>
+            <div id="logoPreview" class="logo-preview" style="display: none;">
+              <div class="logo-info">
+                <img id="logoImage" src="" alt="شعار الشركة">
+                <div class="logo-details">
+                  <h4 id="logoFileName">logo.png</h4>
+                  <p id="logoFileSize">1.5 MB</p>
+                </div>
+                <button class="remove-logo" onclick="removeLogo()">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button class="submit-btn" onclick="submitEmployerRegistration()">
+          <i class="bi bi-check-circle"></i>
+          إنشاء حساب صاحب العمل
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2024 JobPilot AI. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/employer-registration.js"></script>
+<script>
+// Check if user data exists on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = localStorage.getItem('userData');
+    
+    if (!userData) {
+        // No user data found, redirect to AI system for registration
+        window.location.href = 'ai-system.html';
+    }
+    // If user data exists, stay on this page (employer-registration.html)
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot  - النظام الذكي للوظائف</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/ai-system.css">
+</head>
+<body>
+
+<!-- AI Loading Screen -->
+<div id="aiLoadingScreen" class="ai-loading-screen">
+  <div class="loading-content">
+    <div class="ai-logo">
+      <i class="bi bi-cpu-fill"></i>
+    </div>
+    <h2>JobPilot </h2>
+    <p>النظام الذكي للبحث عن وظائف</p>
+    <div class="loading-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Container -->
+<div class="main-container" id="mainContainer" style="display: none;">
+  
+  <!-- Header -->
+  <header class="ai-header">
+    <div class="header-content">
+      <div class="logo">
+        <i class="bi bi-cpu-fill"></i>
+        <span>JobPilot </span>
+      </div>
+      <div class="header-status">
+        <span class="status-indicator online"></span>
+        <span>AI System Active</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Section -->
+  <section id="registrationSection" class="registration-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>
+          <i class="bi bi-person-plus-fill"></i>
+          إنشاء ملف المستخدم
+        </h2>
+        <p>أدخل بياناتك لتحليلها بواسطة الذكاء الاصطناعي</p>
+      </div>
+
+      <div class="registration-form">
+        <div class="form-grid">
+          <!-- Personal Information -->
+          <div class="form-section">
+            <h3>المعلومات الشخصية</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="fullName" placeholder="أدخل اسمك الكامل">
+              </div>
+              <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="example@email.com">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" id="phone" placeholder="+966 5X XXX XXXX">
+              </div>
+              <div class="form-group">
+                <label>العمر</label>
+                <input type="number" id="age" placeholder="25">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>المدينة</label>
+                <select id="city">
+                  <option value="">اختر المدينة</option>
+                  <option value="riyadh">الرياض</option>
+                  <option value="jeddah">جدة</option>
+                  <option value="dammam">الدمام</option>
+                  <option value="makkah">مكة</option>
+                  <option value="madinah">المدينة المنورة</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>الجنسية</label>
+                <select id="nationality">
+                  <option value="">اختر الجنسية</option>
+                  <option value="saudi">سعودي</option>
+                  <option value="other">أخرى</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Professional Information -->
+          <div class="form-section">
+            <h3>المعلومات المهنية</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>المسمى الوظيفي الحالي</label>
+                <input type="text" id="currentJob" placeholder="مطور برمجيات">
+              </div>
+              <div class="form-group">
+                <label>المستوى الوظيفي</label>
+                <select id="experienceLevel">
+                  <option value="">اختر المستوى</option>
+                  <option value="entry">مبتدئ (0-2 سنوات)</option>
+                  <option value="junior">مبتدئ (2-5 سنوات)</option>
+                  <option value="mid">متوسط (5-8 سنوات)</option>
+                  <option value="senior">خبير (8-12 سنة)</option>
+                  <option value="expert">خبير جداً (+12 سنة)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>المجال المهني</label>
+                <select id="industry">
+                  <option value="">اختر المجال</option>
+                  <option value="it">تقنية المعلومات</option>
+                  <option value="finance">التمويل والمحاسبة</option>
+                  <option value="marketing">التسويق</option>
+                  <option value="hr">الموارد البشرية</option>
+                  <option value="sales">المبيعات</option>
+                  <option value="engineering">الهندسة</option>
+                  <option value="healthcare">الرعاية الصحية</option>
+                  <option value="education">التعليم</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>الراتب الحالي (ريال)</label>
+                <input type="number" id="currentSalary" placeholder="10000">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label>المهارات الرئيسية</label>
+                <textarea id="skills" placeholder="أدخل مهاراتك مفصولة بفواصل (مثال: JavaScript, React, Node.js, SQL)"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job Preferences -->
+          <div class="form-section">
+            <h3>تفضيلات الوظيفة</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>الراتب المستهدف (ريال)</label>
+                <input type="number" id="targetSalary" placeholder="15000">
+              </div>
+              <div class="form-group">
+                <label>نوع العمل المفضل</label>
+                <select id="workType">
+                  <option value="">اختر النوع</option>
+                  <option value="full-time">دوام كامل</option>
+                  <option value="part-time">دوام جزئي</option>
+                  <option value="remote">عن بعد</option>
+                  <option value="hybrid">مختلط</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>الموقع المفضل</label>
+                <select id="preferredLocation">
+                  <option value="">اختر الموقع</option>
+                  <option value="riyadh">الرياض</option>
+                  <option value="jeddah">جدة</option>
+                  <option value="dammam">الدمام</option>
+                  <option value="remote">عن بعد</option>
+                  <option value="any">أي موقع</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>حجم الشركة المفضل</label>
+                <select id="companySize">
+                  <option value="">اختر الحجم</option>
+                  <option value="startup">ناشئة (1-50 موظف)</option>
+                  <option value="small">صغيرة (51-200 موظف)</option>
+                  <option value="medium">متوسطة (201-1000 موظف)</option>
+                  <option value="large">كبيرة (1000+ موظف)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- CV Upload -->
+          <div class="form-section">
+            <h3>رفع السيرة الذاتية</h3>
+            <div class="cv-upload-area">
+              <input type="file" id="cvInput" accept=".pdf,.doc,.docx" style="display: none;">
+              <div class="cv-drop-zone" id="cvDropZone">
+                <div class="cv-upload-icon">
+                  <i class="bi bi-cloud-upload"></i>
+                </div>
+                <h4>ارفع سيرتك الذاتية</h4>
+                <p>اسحب الملف هنا أو اضغط للاختيار</p>
+                <p class="file-types">(PDF, DOC, DOCX - الحد الأقصى 5MB)</p>
+                <button class="cv-upload-btn" onclick="document.getElementById('cvInput').click()">
+                  <i class="bi bi-folder2-open"></i>
+                  اختر ملف
+                </button>
+              </div>
+              <div id="cvPreview" class="cv-preview" style="display: none;">
+                <div class="cv-info">
+                  <i class="bi bi-file-earmark-text"></i>
+                  <div class="cv-details">
+                    <h4 id="cvFileName">CV.pdf</h4>
+                    <p id="cvFileSize">2.5 MB</p>
+                  </div>
+                  <button class="remove-cv" onclick="removeCV()">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button class="submit-btn" onclick="submitUserData()">
+            <i class="bi bi-robot"></i>
+            تحليل البيانات بالذكاء الاصطناعي
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Analysis Section -->
+  <section id="analysisSection" class="analysis-section" style="display: none;">
+    <div class="container">
+      <div class="analysis-header">
+        <h2>
+          <i class="bi bi-cpu"></i>
+          تحليل البيانات بالذكاء الاصطناعي
+        </h2>
+        <p>جاري تحليل بياناتك والبحث عن أفضل الوظائف المطابقة</p>
+      </div>
+
+      <div class="analysis-content">
+        <div class="ai-status">
+          <div class="status-item active">
+            <div class="status-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="status-text">
+              <h4>تم تحليل البيانات الشخصية</h4>
+              <p>تم تحليل المعلومات الأساسية بنجاح</p>
+            </div>
+          </div>
+          <div class="status-item active">
+            <div class="status-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="status-text">
+              <h4>تم تحليل السيرة الذاتية</h4>
+              <p>تم استخراج المهارات والخبرات من الـ CV</p>
+            </div>
+          </div>
+          <div class="status-item active">
+            <div class="status-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="status-text">
+              <h4>تم تحليل المهارات</h4>
+              <p>تم تصنيف المهارات وتقييم المستوى</p>
+            </div>
+          </div>
+          <div class="status-item processing">
+            <div class="status-icon">
+              <i class="bi bi-arrow-repeat spin-animation"></i>
+            </div>
+            <div class="status-text">
+              <h4>جاري البحث عن الوظائف</h4>
+              <p>البحث في قاعدة البيانات عن الوظائف المطابقة</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <div class="status-icon">
+              <i class="bi bi-circle"></i>
+            </div>
+            <div class="status-text">
+              <h4>التقديم التلقائي</h4>
+              <p>سيتم التقديم على الوظائف المطابقة تلقائياً</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 75%;"></div>
+          </div>
+          <div class="progress-text" id="progressText">75% مكتمل</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section id="resultsSection" class="results-section" style="display: none;">
+    <div class="container">
+      <div class="results-header">
+        <h2>
+          <i class="bi bi-trophy-fill"></i>
+          نتائج الذكاء الاصطناعي
+        </h2>
+        <p>تم العثور على <span id="matchedJobsCount">0</span> وظيفة مطابقة بناءً على تحليل بياناتك</p>
+      </div>
+
+      <div class="ai-summary">
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="bi bi-person-check"></i>
+          </div>
+          <div class="summary-content">
+            <h3>ملفك المهني</h3>
+            <p id="profileSummary">مطور برمجيات متوسط الخبرة في مجال تطوير الويب</p>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <div class="summary-content">
+            <h3>فرص النمو</h3>
+            <p id="growthOpportunities">85% فرصة للنمو المهني في الوظائف المطابقة</p>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+          <div class="summary-content">
+            <h3>الراتب المتوقع</h3>
+            <p id="expectedSalary">12,000 - 18,000 ريال</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="matched-jobs" id="matchedJobsList">
+        <!-- Matched jobs will be loaded here -->
+      </div>
+
+      <div class="auto-application-status">
+        <div class="status-card">
+          <div class="status-icon success">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <div class="status-content">
+            <h3>التقديم التلقائي مكتمل</h3>
+            <p id="applicationSummary">تم التقديم على 5 وظائف مطابقة بناءً على بياناتك</p>
+            <button class="view-applications-btn" onclick="viewApplications()">
+              <i class="bi bi-eye"></i>
+              عرض التقديمات
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/ai-system.js"></script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPilot - مساعدك الذكي للوظائف</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    </head>
+<body class="home-page">
+    <!-- Secondary Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" id="secondaryNav">
+        <div class="container">
+            <div class="d-flex justify-content-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="login.html">
+                            <i class="bi bi-box-arrow-in-left me-1"></i> تسجيل الدخول
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i> إنشاء حساب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="search.html">
+                            <i class="bi bi-search me-1"></i> البحث عن وظائف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i> لوحة التحكم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="profile.html">
+                            <i class="bi bi-person me-1"></i> الملف الشخصي
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#home">
+                <i class="bi bi-rocket-takeoff"></i> JobPilot
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">المميزات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">كيف يعمل</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html" class="btn btn-outline-light ms-2">تسجيل الدخول</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="btn btn-warning ms-2 btn-arrow-animated">ابدأ مجاناً</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="hero-content">
+                        <h1 class="display-2 fw-bold text-white mb-4">
+                            ابحث عن وظيفتك<br>
+                            <span class="typing-text" id="typingText">تلقائياً</span>
+                        </h1>
+                        <p class="lead text-white-50 mb-4 fs-4">
+                            منصة ذكية تجمع لك الوظائف المناسبة وتتقدم عليها بدلاً عنك<br>
+                            وداعاً للبحث التقليدي والممل
+                        </p>
+                        <div class="d-flex gap-3 flex-wrap mb-5">
+                        <a href="register.html" class="btn btn-warning btn-lg px-5 py-3 btn-arrow-animated">
+                                <i class="bi bi-arrow-left ms-2"></i> ابدأ الآن
+                            </a>
+                            <a href="#features" class="btn btn-outline-light btn-lg px-5 py-3">
+                                <i class="bi bi-play-circle ms-2"></i> تعرف على المميزات
+                            </a>
+                        </div>
+                        
+                        <!-- Trust Badges -->
+                        <div class="trust-badges">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="trust-item">
+                                        <div class="trust-icon">
+                                            <i class="bi bi-briefcase-fill"></i>
+                                        </div>
+                                        <h4 class="fw-bold">10K+</h4>
+                                        <p class="mb-0">وظيفة يومياً</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="trust-item">
+                                        <div class="trust-icon">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                        <h4 class="fw-bold">95%</h4>
+                                        <p class="mb-0">معدل النجاح</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="trust-item">
+                                        <div class="trust-icon">
+                                            <i class="bi bi-clock-fill"></i>
+                                        </div>
+                                        <h4 class="fw-bold">24/7</h4>
+                                        <p class="mb-0">بحث مستمر</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="hero-image text-center">
+                        <div class="floating-animation">
+                            <div class="position-relative">
+                                <div class="bg-white bg-opacity-10 rounded-4 p-5 backdrop-blur-sm">
+                                    <i class="bi bi-briefcase-fill display-1 text-white mb-4"></i>
+                                    <h3 class="text-white fw-bold mb-3">ابحث عن وظيفتك المثالية</h3>
+                                    <div class="bg-white bg-opacity-20 rounded-3 p-3 mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-search text-white ms-3"></i>
+                                            <span class="text-white">محرك بحث ذكي</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white bg-opacity-20 rounded-3 p-3 mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-robot text-white ms-3"></i>
+                                            <span class="text-white">تقديم تلقائي</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white bg-opacity-20 rounded-3 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-graph-up text-white ms-3"></i>
+                                            <span class="text-white">متابعة مستمرة</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 fw-bold">مميزات رائعة</h2>
+                <p class="lead text-muted">كل ما تحتاجه للبحث عن وظيفة أحلامك</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-person-badge display-4 text-primary"></i>
+                            </div>
+                            <h4 class="card-title">إدارة الملف الشخصي</h4>
+                            <p class="card-text text-muted">ارفع سيرتك الذاتية وحدد تفضيلاتك ومهاراتك مرة واحدة فقط</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-search display-4 text-success"></i>
+                            </div>
+                            <h4 class="card-title">بحث ذكي</h4>
+                            <p class="card-text text-muted">يجلب النظام الوظائف من LinkedIn و Indeed وأهم منصات العمل</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-robot display-4 text-warning"></i>
+                            </div>
+                            <h4 class="card-title">تقديم تلقائي</h4>
+                            <p class="card-text text-muted">يتقدم النظام على الوظائف المناسبة تلقائياً بالنيابة عنك</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-graph-up display-4 text-info"></i>
+                            </div>
+                            <h4 class="card-title">لوحة متابعة</h4>
+                            <p class="card-text text-muted">تابع حالة طلباتك والإحصائيات المفصلة عن التقدمات</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-magic display-4 text-danger"></i>
+                            </div>
+                            <h4 class="card-title">ذكاء اصطناعي</h4>
+                            <p class="card-text text-muted">تحليل السيرة الذاتية واقتراح وظائف مناسبة وإنشاء رسائل تعريفية</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-bell display-4 text-secondary"></i>
+                            </div>
+                            <h4 class="card-title">تنبيهات ذكية</h4>
+                            <p class="card-text text-muted">تلقي إشعارات فورية بالوظائف الجديدة والمطابقة لمؤهلاتك</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 fw-bold">كيف يعمل JobPilot؟</h2>
+                <p class="lead text-muted">ثلاث خطوات بسيطة للحصول على وظيفة أحلامك</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-card text-center">
+                        <div class="step-number">1</div>
+                        <div class="step-icon mb-3">
+                            <i class="bi bi-person-plus display-1 text-primary"></i>
+                        </div>
+                        <h4>إنشاء حساب</h4>
+                        <p class="text-muted">سجل حساب جديد وارفع سيرتك الذاتية ومعلوماتك</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-card text-center">
+                        <div class="step-number">2</div>
+                        <div class="step-icon mb-3">
+                            <i class="bi bi-gear display-1 text-success"></i>
+                        </div>
+                        <h4>ضبط التفضيلات</h4>
+                        <p class="text-muted">حدد نوع الوظيفة والمجال والدولة والمستوى المطلوب</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-card text-center">
+                        <div class="step-number">3</div>
+                        <div class="step-icon mb-3">
+                            <i class="bi bi-rocket-takeoff display-1 text-warning"></i>
+                        </div>
+                        <h4>اجلس واسترخِ</h4>
+                        <p class="text-muted">النظام سيبحث ويتقدم على أفضل الوظائف تلقائياً</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="50000">0</div>
+                        <div class="stat-label">مستخدم نشط</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="1000000">0</div>
+                        <div class="stat-label">وظيفة متاحة</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="98">0%</div>
+                        <div class="stat-label">معدل الرضا</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-card">
+                        <div class="stat-number" data-count="500">0+</div>
+                        <div class="stat-label">شريك توظيف</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 fw-bold">ماذا يقول عملاؤنا</h2>
+                <p class="lead text-muted">قصص نجاح حقيقية من مستخدمي JobPilot</p>
+            </div>
+            
+            <div class="swiper testimonialSwiper" data-aos="fade-up">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="mb-4 fs-5">"JobPilot غير حياتي تماماً! حصلت على وظيفة أحلامي في أقل من شهر. النظام كان يتقدم على الوظائف المناسبة تلقائياً وأنا نائم."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://picsum.photos/seed/user1/80/80" alt="User" class="testimonial-avatar ms-3">
+                                <div>
+                                    <h5 class="mb-0">أحمد محمد</h5>
+                                    <p class="text-muted mb-0">مطور برمجيات</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="mb-4 fs-5">"أفضل منصة بحث عن وظائف استخدمتها. وفرت علي الكثير من الوقت والمجهود. أوصي بها بشدة لكل الباحثين عن عمل."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://picsum.photos/seed/user2/80/80" alt="User" class="testimonial-avatar ms-3">
+                                <div>
+                                    <h5 class="mb-0">سارة أحمد</h5>
+                                    <p class="text-muted mb-0">مصممة جرافيك</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="mb-4 fs-5">"الميزة الذكية للتقديم التلقائي رائعة. حصلت على 5 مقابلات في الأسبوع الأول فقط. شكراً JobPilot!"</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://picsum.photos/seed/user3/80/80" alt="User" class="testimonial-avatar ms-3">
+                                <div>
+                                    <h5 class="mb-0">خالد العلي</h5>
+                                    <p class="text-muted mb-0">مدير مشروع</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center position-relative">
+            <div class="row">
+                <div class="col-lg-8 mx-auto" data-aos="zoom-in">
+                    <h2 class="display-4 fw-bold mb-4">هل أنت مستعد للعثور على وظيفة أحلامك؟</h2>
+                    <p class="lead mb-4 fs-5">انضم إلى آلاف الباحثين عن عمل الذين وثقوا في JobPilot وبدأوا مسيرتهم المهنية الجديدة</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="register.html" class="cta-button btn-arrow-animated">
+                            <i class="bi bi-arrow-left ms-2"></i> ابدأ مجاناً الآن
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg px-5 py-3">
+                            <i class="bi bi-info-circle ms-2"></i> تعرف المزيد
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-0"><i class="bi bi-check-circle ms-2"></i> لا توجد بطاقة ائتمانية مطلوبة</p>
+                        <p class="mb-0"><i class="bi bi-check-circle ms-2"></i> إلغاء الاشتراك في أي وقت</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-rocket-takeoff"></i> JobPilot</h5>
+                    <p class="text-muted">مساعدك الذكي للبحث عن وظائف</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-secondary">
+            <div class="text-center">
+                <p class="mb-0 text-muted">&copy; 2024 JobPilot. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

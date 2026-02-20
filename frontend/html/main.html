@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot AI - منصة الوظائف الذكية</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo">
+      <i class="bi bi-cpu-fill"></i>
+      <span>JobPilot AI</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#home" class="nav-link active">الرئيسية</a>
+      <a href="#ai-system" class="nav-link">النظام الذكي</a>
+      <a href="#simple-search" class="nav-link">بحث سريع</a>
+      <a href="#linkedin-search" class="nav-link">بحث LinkedIn</a>
+    </nav>
+    <div class="header-buttons">
+      <button class="login-btn" onclick="showLogin()">تسجيل الدخول</button>
+      <button class="register-btn" onclick="showRegister()">إنشاء حساب</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section id="home" class="hero-section">
+  <div class="hero-content">
+    <div class="hero-left">
+      <h1>ابحث عن وظيفة أحلامك بالذكاء الاصطناعي</h1>
+      <p>منصة JobPilot AI تجد لك أفضل الوظائف المطابقة وتتقدم عليها تلقائياً</p>
+      
+      <div class="hero-buttons">
+        <button class="primary-btn" onclick="goToAISystem()">
+          <i class="bi bi-robot"></i>
+          ابدأ مع النظام الذكي
+        </button>
+        <button class="secondary-btn" onclick="goToSimpleSearch()">
+          <i class="bi bi-search"></i>
+          بحث سريع
+        </button>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <i class="bi bi-cpu"></i>
+          <span>تحليل ذكي بالـ AI</span>
+        </div>
+        <div class="feature">
+          <i class="bi bi-linkedin"></i>
+          <span>وظائف حقيقية من LinkedIn</span>
+        </div>
+        <div class="feature">
+          <i class="bi bi-send-check"></i>
+          <span>تقديم تلقائي فوري</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-right">
+      <img src="https://www.albayan.ae/assets/images/2025/11/01/4958230.jpg" alt="البحث عن وظائف">
+      
+      <div class="floating-icons">
+        <div class="floating-icon icon1">
+          <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="floating-icon icon2">
+          <i class="bi bi-graph-up"></i>
+        </div>
+        <div class="floating-icon icon3">
+          <i class="bi bi-trophy-fill"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section">
+  <div class="container">
+    <h2>خدماتنا</h2>
+    <div class="services-grid">
+      <div class="service-card" onclick="goToAISystem()">
+        <div class="service-icon">
+          <i class="bi bi-robot"></i>
+        </div>
+        <h3>النظام الذكي</h3>
+        <p>سجل بياناتك وارفع سيرتك الذاتية والـ AI سيجد ويتقدم على أفضل الوظائف تلقائياً</p>
+        <button class="service-btn">ابدأ الآن</button>
+      </div>
+      
+      <div class="service-card" onclick="goToSimpleSearch()">
+        <div class="service-icon">
+          <i class="bi bi-search"></i>
+        </div>
+        <h3>بحث سريع</h3>
+        <p>بحث سريع وبسيط مع نتائج فورية ووظائف متنوعة</p>
+        <button class="service-btn">ابحث الآن</button>
+      </div>
+      
+      <div class="service-card" onclick="goToLinkedInSearch()">
+        <div class="service-icon">
+          <i class="bi bi-linkedin"></i>
+        </div>
+        <h3>بحث LinkedIn</h3>
+        <p>وظائف حقيقية من LinkedIn مع تقديم مباشر للشركات</p>
+        <button class="service-btn">استكشف</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">10,000+</div>
+        <div class="stat-label">وظيفة متاحة</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">شركة موثوقة</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">معدل النجاح</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">خدمة ذكية</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>JobPilot AI</h4>
+        <p>منصة ذكية للبحث عن وظائف والتقديم التلقائي باستخدام الذكاء الاصطناعي</p>
+        <div class="social-links">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#ai-system">النظام الذكي</a></li>
+          <li><a href="#simple-search">بحث سريع</a></li>
+          <li><a href="#linkedin-search">بحث LinkedIn</a></li>
+          <li><a href="#">عن المنصة</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>الدعم</h4>
+        <ul>
+          <li><a href="#">مركز المساعدة</a></li>
+          <li><a href="#">الأسئلة الشائعة</a></li>
+          <li><a href="#">اتصل بنا</a></li>
+          <li><a href="#">الشروط والأحكام</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>تواصل معنا</h4>
+        <p><i class="bi bi-envelope"></i> info@jobpilot.ai</p>
+        <p><i class="bi bi-phone"></i> +966 50 123 4567</p>
+        <p><i class="bi bi-geo-alt"></i> الرياض، المملكة العربية السعودية</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 JobPilot AI. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main-new.js"></script>
+</body>
+</html>

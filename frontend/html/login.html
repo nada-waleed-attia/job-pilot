@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - JobPilot</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+</head>
+<body class="pt-5">
+    <!-- Secondary Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-2" id="secondaryNav">
+        <div class="container">
+            <div class="d-flex justify-content-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="login.html">
+                            <i class="bi bi-box-arrow-in-left me-1"></i> تسجيل الدخول
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i> إنشاء حساب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="search.html">
+                            <i class="bi bi-search me-1"></i> البحث عن وظائف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sm" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i> لوحة التحكم
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="notification-dropdown">
+                            <button class="notification-btn" onclick="toggleNotifications()">
+                                <i class="bi bi-bell-fill"></i>
+                                <span class="notification-badge" id="notificationBadge">0</span>
+                            </button>
+                            <div class="notification-dropdown-content" id="notificationDropdown">
+                                <div class="notification-header">
+                                    <h4>الإشعارات</h4>
+                                    <button class="clear-all-btn" onclick="clearAllNotifications()">مسح الكل</button>
+                                    <button class="view-jobs-btn" onclick="viewAppliedJobs()">عرض الوظائف</button>
+                                </div>
+                                <div class="notification-list" id="notificationList">
+                                    <!-- Notifications will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="login-container" data-aos="fade-up">
+        <div class="row g-0">
+            <!-- Login Image Section -->
+            <div class="col-lg-6">
+                <div class="login-image">
+                    <i class="bi bi-rocket-takeoff display-1 mb-4"></i>
+                    <h2 class="mb-3">مرحباً بعودتك!</h2>
+                    <p class="lead">سجل دخولك لمتابعة رحلتك في البحث عن وظيفة أحلامك</p>
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <span>بحث تلقائي عن الوظائف</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <span>تقديم ذكي على الوظائف</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <span>متابعة حالة الطلبات</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Login Form Section -->
+            <div class="col-lg-6">
+                <div class="login-form">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold">تسجيل الدخول</h3>
+                        <p class="text-muted">أدخل بياناتك للوصول إلى حسابك</p>
+                    </div>
+                    
+                    <form id="loginForm">
+                        <div class="form-floating position-relative">
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <label for="email"><i class="bi bi-envelope me-2"></i>البريد الإلكتروني</label>
+                        </div>
+                        
+                        <div class="form-floating position-relative">
+                            <input type="password" class="form-control" id="password" placeholder="كلمة المرور" required>
+                            <label for="password"><i class="bi bi-lock me-2"></i>كلمة المرور</label>
+                            <span class="password-toggle" onclick="togglePassword()">
+                                <i class="bi bi-eye" id="passwordIcon"></i>
+                            </span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">
+                                    تذكرني
+                                </label>
+                            </div>
+                            <a href="#" class="text-decoration-none">نسيت كلمة المرور؟</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 btn-lg py-3">
+                            <i class="bi bi-box-arrow-in-left me-2"></i>
+                            تسجيل الدخول
+                        </button>
+                    </form>
+                    
+                    <div class="social-login">
+                        <p class="text-center text-muted mb-3">أو سجل دخول باستخدام</p>
+                        
+                        <a href="#" class="social-btn w-100">
+                            <i class="bi bi-google"></i>
+                            Google
+                        </a>
+                        
+                        <a href="#" class="social-btn w-100">
+                            <i class="bi bi-linkedin"></i>
+                            LinkedIn
+                        </a>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-0">ليس لديك حساب؟ <a href="register.html" class="text-decoration-none fw-bold">إنشاء حساب جديد</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    <script src="../js/login.js"></script>
+    <script>
+// Notification System
+let notifications = [];
+let notificationId = 0;
+
+// Toggle notification dropdown
+function toggleNotifications() {
+    const dropdown = document.getElementById('notificationDropdown');
+    dropdown.classList.toggle('show');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('notificationDropdown');
+    const button = event.target.closest('.notification-btn');
+    
+    if (!button && !dropdown.contains(event.target)) {
+        dropdown.classList.remove('show');
+    }
+});
+
+// Add new notification
+function addNotification(title, message, type = 'info', job = null) {
+    const notification = {
+        id: ++notificationId,
+        title: title,
+        message: message,
+        type: type,
+        job: job,
+        time: new Date(),
+        read: false
+    };
+    
+    notifications.unshift(notification);
+    updateNotificationUI();
+    updateNotificationBadge();
+}
+
+// Update notification UI
+function updateNotificationUI() {
+    const notificationList = document.getElementById('notificationList');
+    
+    if (notifications.length === 0) {
+        notificationList.innerHTML = `
+            <div class="no-notifications">
+                <i class="bi bi-bell-slash"></i>
+                <p>لا توجد إشعارات</p>
+            </div>
+        `;
+        return;
+    }
+    
+    notificationList.innerHTML = notifications.map(notification => `
+        <div class="notification-item ${!notification.read ? 'unread' : ''}" onclick="markAsRead(${notification.id})">
+            <div class="notification-content">
+                <div class="notification-icon ${notification.type}">
+                    <i class="bi bi-${getNotificationIcon(notification.type)}"></i>
+                </div>
+                <div class="notification-text">
+                    <h5>${notification.title}</h5>
+                    <p>${notification.message}</p>
+                    ${notification.job ? `
+                        <div class="job-details">
+                            <div class="job-info">
+                                <span class="job-title">${notification.job.title}</span>
+                                <span class="job-company">${notification.job.company}</span>
+                            </div>
+                            <div class="job-meta">
+                                <span class="job-salary">${notification.job.salary}</span>
+                                <span class="job-location">${notification.job.location}</span>
+                                <span class="job-status status-${notification.job.status === 'تم القبول' ? 'success' : notification.job.status === 'مرفوض' ? 'danger' : 'warning'}">${notification.job.status}</span>
+                            </div>
+                        </div>
+                    ` : ''}
+                    <div class="notification-time">${formatTime(notification.time)}</div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Update notification badge
+function updateNotificationBadge() {
+    const badge = document.getElementById('notificationBadge');
+    const unreadCount = notifications.filter(n => !n.read).length;
+    
+    badge.textContent = unreadCount;
+    badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+}
+
+// Mark notification as read
+function markAsRead(id) {
+    const notification = notifications.find(n => n.id === id);
+    if (notification) {
+        notification.read = true;
+        updateNotificationUI();
+        updateNotificationBadge();
+    }
+}
+
+// Clear all notifications
+function clearAllNotifications() {
+    notifications = [];
+    updateNotificationUI();
+    updateNotificationBadge();
+}
+
+// View applied jobs
+function viewAppliedJobs() {
+    const dropdown = document.getElementById('notificationDropdown');
+    dropdown.classList.remove('show');
+    
+    const savedJobs = localStorage.getItem('appliedJobs');
+    if (savedJobs) {
+        const jobs = JSON.parse(savedJobs);
+        if (jobs.length > 0) {
+            // Create modal to show applied jobs
+            const modal = document.createElement('div');
+            modal.className = 'applied-jobs-modal';
+            modal.innerHTML = `
+                <div class="modal-overlay" onclick="closeAppliedJobsModal()">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>الوظائف التي تم التقديم عليها</h3>
+                            <button class="close-modal-btn" onclick="closeAppliedJobsModal()">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ${jobs.map(job => `
+                                <div class="applied-job-item">
+                                    <div class="job-header">
+                                        <h4>${job.title}</h4>
+                                        <span class="job-status status-${job.status === 'تم القبول' ? 'success' : job.status === 'مرفوض' ? 'danger' : 'warning'}">${job.status}</span>
+                                    </div>
+                                    <div class="job-details">
+                                        <div class="job-info-row">
+                                            <span class="job-label">الشركة:</span>
+                                            <span class="job-value">${job.company}</span>
+                                        </div>
+                                        <div class="job-info-row">
+                                            <span class="job-label">الراتب:</span>
+                                            <span class="job-value">${job.salary}</span>
+                                        </div>
+                                        <div class="job-info-row">
+                                            <span class="job-label">الموقع:</span>
+                                            <span class="job-value">${job.location}</span>
+                                        </div>
+                                        <div class="job-info-row">
+                                            <span class="job-label">تاريخ التقديم:</span>
+                                            <span class="job-value">${formatTime(job.date)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add modal styles
+            const modalStyles = document.createElement('style');
+            modalStyles.textContent = `
+                .applied-jobs-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .modal-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .modal-content {
+                    background: white;
+                    border-radius: 15px;
+                    max-width: 600px;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    position: relative;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                }
+                
+                .modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+                    border-bottom: 1px solid #e9ecef;
+                }
+                
+                .modal-header h3 {
+                    margin: 0;
+                    color: #333;
+                }
+                
+                .close-modal-btn {
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: #666;
+                    transition: all 0.3s ease;
+                }
+                
+                .close-modal-btn:hover {
+                    color: #333;
+                }
+                
+                .modal-body {
+                    padding: 20px;
+                }
+                
+                .applied-job-item {
+                    border: 1px solid #e9ecef;
+                    border-radius: 10px;
+                    margin-bottom: 15px;
+                    overflow: hidden;
+                }
+                
+                .job-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px;
+                    background: #f8f9fa;
+                }
+                
+                .job-header h4 {
+                    margin: 0;
+                    color: #333;
+                    font-size: 1.1rem;
+                }
+                
+                .job-info-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px 15px;
+                    border-bottom: 1px solid #f8f9fa;
+                }
+                
+                .job-info-row:last-child {
+                    border-bottom: none;
+                }
+                
+                .job-label {
+                    font-weight: 600;
+                    color: #666;
+                    font-size: 0.9rem;
+                }
+                
+                .job-value {
+                    color: #333;
+                    font-weight: 500;
+                }
+            `;
+            document.head.appendChild(modalStyles);
+            
+            window.currentModal = modal;
+        } else {
+            addNotification('لا توجد وظائف تم التقديم عليها', 'info');
+        }
+    } else {
+        addNotification('لا توجد وظائف تم التقديم عليها', 'info');
+    }
+}
+
+// Close applied jobs modal
+function closeAppliedJobsModal() {
+    if (window.currentModal) {
+        window.currentModal.remove();
+        window.currentModal = null;
+    }
+}
+
+// Get notification icon
+function getNotificationIcon(type) {
+    const icons = {
+        success: 'check-circle-fill',
+        info: 'info-circle-fill',
+        warning: 'exclamation-triangle-fill',
+        error: 'x-circle-fill'
+    };
+    return icons[type] || 'info-circle-fill';
+}
+
+// Format time
+function formatTime(date) {
+    const now = new Date();
+    const diff = Math.floor((now - date) / 1000); // seconds
+    
+    if (diff < 60) return 'الآن';
+    if (diff < 3600) return `${Math.floor(diff / 60)} دقيقة`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} ساعة`;
+    return `${Math.floor(diff / 86400)} يوم`;
+}
+
+// Check if user data exists on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = localStorage.getItem('userData');
+    
+    if (userData) {
+        // User data exists, load applied jobs from localStorage
+        const savedJobs = localStorage.getItem('appliedJobs');
+        if (savedJobs) {
+            const jobs = JSON.parse(savedJobs);
+            
+            // Add notifications for existing applied jobs
+            jobs.forEach(job => {
+                addNotification(
+                    'تقديم على وظيفة',
+                    `قام النظام الذكي بالتقديم على وظيفة "${job.title}" في ${job.company}`,
+                    job.status === 'تم القبول' ? 'success' : job.status === 'مرفوض' ? 'error' : 'info',
+                    job
+                );
+            });
+        }
+        
+        // Add welcome notification
+        addNotification(
+            'مرحباً بك في JobPilot',
+            'النظام الذكي يعمل الآن على البحث عن وظائف مناسبة لك',
+            'success'
+        );
+    }
+});
+    </script>
+    
+</body>
+</html>

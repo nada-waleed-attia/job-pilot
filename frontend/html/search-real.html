@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot - البحث عن وظائف حقيقي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/search-real.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">🚀 JobPilot</div>
+
+  <div class="nav-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="#" class="active">البحث عن وظائف</a>
+    <a href="#">لأصحاب العمل</a>
+    <a href="#">الباحثين</a>
+    <a href="#">المدونة</a>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="login" onclick="window.location.href='login.html'">تسجيل الدخول</button>
+    <button class="post" onclick="window.location.href='register.html'">إنشاء حساب</button>
+  </div>
+</header>
+
+<section class="search-hero">
+
+  <div class="hero-left">
+    <h1>ابحث عن وظيفة حقيقية</h1>
+    <p>وظائف حقيقية من LinkedIn مباشرة</p>
+
+    <div class="search-box">
+      <input type="text" id="jobTitle" placeholder="المسمى الوظيفي، كلمات مفتاحية...">
+      <input type="text" id="location" placeholder="الموقع، المدينة...">
+      <button id="searchBtn" onclick="searchLinkedInJobs()">
+        <i class="bi bi-search"></i>
+        بحث في LinkedIn
+      </button>
+    </div>
+
+    <!-- CV Upload Section -->
+    <div class="cv-upload-section">
+      <div class="cv-upload-container">
+        <input type="file" id="cvInput" accept=".pdf,.doc,.docx" style="display: none;">
+        <button id="cvUploadBtn" class="cv-upload-btn">
+          <i class="bi bi-file-earmark-text"></i>
+          رفع السيرة الذاتية (CV)
+        </button>
+        <div id="cvFileName" class="cv-file-name"></div>
+      </div>
+    </div>
+
+    <!-- Search Status -->
+    <div id="searchStatus" class="search-status" style="display: none;">
+      <div class="status-content">
+        <div class="status-icon">
+          <i class="bi bi-search"></i>
+        </div>
+        <div class="status-text">
+          <h4>جاري البحث في LinkedIn...</h4>
+          <p>يتم البحث عن وظائف حقيقية مطابقة لمعاييرك</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hero-right">
+    <img src="https://www.albayan.ae/assets/images/2025/11/01/4958230.jpg" alt="شخص يبحث عن وظيفة">
+
+    <div class="icon icon1">LinkedIn</div>
+    <div class="icon icon2">وظائف</div>
+    <div class="icon icon3">حقيقية</div>
+    <div class="icon icon4">فورية</div>
+  </div>
+
+</section>
+
+<!-- Real Results Section -->
+<section id="resultsSection" class="results-section" style="display: none;">
+  <div class="container">
+    <div class="results-header">
+      <div class="results-info">
+        <h2>نتائج LinkedIn الحقيقية</h2>
+        <p>وجدنا <span id="resultsCount">0</span> وظيفة حقيقية</p>
+      </div>
+      <div class="results-filters">
+        <select id="sortBy" class="form-select" onchange="sortResults()">
+          <option value="relevant">الأكثر مطابقة</option>
+          <option value="recent">الأحدث أولاً</option>
+          <option value="salary">الراتب: من الأعلى للأقل</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="jobsList" class="jobs-list">
+      <!-- Real LinkedIn jobs will be loaded here -->
+    </div>
+
+    <div class="load-more-container">
+      <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreJobs()" style="display: none;">
+        <i class="bi bi-arrow-down-circle"></i>
+        عرض المزيد من الوظائف
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Job Details Modal -->
+<div id="jobModal" class="job-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalJobTitle">تفاصيل الوظيفة</h3>
+      <button class="modal-close" onclick="closeJobModal()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="job-details">
+        <div class="detail-row">
+          <strong>الشركة:</strong>
+          <span id="modalCompany"></span>
+        </div>
+        <div class="detail-row">
+          <strong>الموقع:</strong>
+          <span id="modalLocation"></span>
+        </div>
+        <div class="detail-row">
+          <strong>الراتب:</strong>
+          <span id="modalSalary"></span>
+        </div>
+        <div class="detail-row">
+          <strong>النوع:</strong>
+          <span id="modalType"></span>
+        </div>
+        <div class="detail-row">
+          <strong>النشر:</strong>
+          <span id="modalPosted"></span>
+        </div>
+        <div class="detail-row">
+          <strong>الوصف:</strong>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="apply-modal-btn" onclick="applyFromModal()">
+        <i class="bi bi-send"></i>
+        التقديم على الوظيفة
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/search-real.js"></script>
+</body>
+</html>
