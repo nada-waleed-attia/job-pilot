@@ -672,6 +672,29 @@ function viewAppliedJobs() {
                                         <span class="job-label">تاريخ التقديم:</span>
                                         <span class="job-value">${formatTime(job.date)}</span>
                                     </div>
+                                    ${job.matchingFactors ? `
+                                        <div class="job-info-row matching-factors">
+                                            <span class="job-label">تم الاختيار بناءً على:</span>
+                                            <span class="job-value">
+                                                <div class="matching-factor">
+                                                    <i class="bi bi-briefcase"></i>
+                                                    <span>التخصص: ${job.matchingFactors.industry}</span>
+                                                </div>
+                                                <div class="matching-factor">
+                                                    <i class="bi bi-graph-up"></i>
+                                                    <span>الخبرة: ${job.matchingFactors.experience}</span>
+                                                </div>
+                                                <div class="matching-factor">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>الموقع: ${job.matchingFactors.location}</span>
+                                                </div>
+                                                <div class="matching-factor">
+                                                    <i class="bi bi-cash-stack"></i>
+                                                    <span>الراتب: ${job.matchingFactors.salary}</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    ` : ''}
                                 </div>
                             </div>
                         `).join('')}
@@ -985,15 +1008,31 @@ function addNewJobApplication() {
     
     if (randomStatus === 'تم القبول') {
         notificationTitle = '🎉 مبروك! تم قبولك';
-        notificationMessage = `تهانينا! تم قبولك في وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تناسب خبرتك في ${userIndustry} ومستواك ${experienceLevel}`;
+        notificationMessage = `تهانينا! تم قبولك في وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تم اختيارها بناءً على بياناتك المسجلة: تخصصك في ${userIndustry}، خبرتك ${experienceLevel}، ومهاراتك`;
         notificationType = 'success';
+        
+        // Add acceptance data to user record
+        const userData = JSON.parse(userData);
+        if (!userData.acceptedJobs) userData.acceptedJobs = [];
+        userData.acceptedJobs.push({
+            ...newJob,
+            acceptanceDate: new Date(),
+            matchingFactors: {
+                industry: userIndustry,
+                experience: experienceLevel,
+                skills: userSkills,
+                location: userLocation,
+                salary: targetSalary
+            }
+        });
+        localStorage.setItem('userData', JSON.stringify(userData));
     } else if (randomStatus === 'مرفوض') {
         notificationTitle = '📝 نتيجة التقديم';
-        notificationMessage = `تم مراجعة طلبك لوظيفة "${newJob.title}" في ${newJob.company}. لا تقلق، سيقوم النظام بالبحث عن فرص أفضل تناسب خبرتك في ${userIndustry}`;
+        notificationMessage = `تم مراجعة طلبك لوظيفة "${newJob.title}" في ${newJob.company}. بناءً على بياناتك، سيقوم النظام بالبحث عن فرص أفضل في ${userIndustry} تناسب خبرتك ${experienceLevel}`;
         notificationType = 'error';
     } else {
         notificationTitle = '📋 تقديم جديد على وظيفة';
-        notificationMessage = `قام النظام الذكي بالتقديم على وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تناسب خبرتك في ${userIndustry}`;
+        notificationMessage = `قام النظام الذكي بالتقديم على وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تم اختيارها بناءً على تخصصك في ${userIndustry} ومستواك ${experienceLevel}`;
         notificationType = 'info';
     }
     

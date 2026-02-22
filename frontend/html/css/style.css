@@ -633,6 +633,43 @@
     font-weight: 500;
 }
 
+/* Matching Factors Styles */
+.matching-factors {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.matching-factor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.matching-factor:hover {
+    background: #e3f2fd;
+    transform: translateX(3px);
+}
+
+.matching-factor i {
+    font-size: 0.9rem;
+    color: #667eea;
+    min-width: 16px;
+}
+
+.matching-factor span {
+    font-size: 0.8rem;
+    color: #333;
+    font-weight: 500;
+}
+
 /* Testimonials */
 .testimonial-card {
     background: white;
