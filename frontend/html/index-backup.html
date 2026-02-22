@@ -841,42 +841,134 @@ function formatTime(date) {
 
 // Add new job application based on user data
 function addNewJobApplication() {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) return;
+    const userData = localStorage.getItem('userData');
+    let userIndustry, userLocation, targetSalary, userSkills, userExperience;
     
-    // Create realistic job based on user data
+    if (userData) {
+        const user = JSON.parse(userData);
+        userIndustry = user.industry || 'it';
+        userLocation = user.preferredLocation || 'riyadh';
+        targetSalary = user.targetSalary || '10,000 - 15,000 ريال';
+        userSkills = user.skills || '';
+        userExperience = user.experienceLevel || '';
+    } else {
+        // Don't work without real user data - show message to register
+        addNotification(
+            '📝 مطلوب تسجيل بيانات',
+            'يرجى تسجيل بياناتك أولاً ليعمل النظام الذكي بشكل حقيقي ومخصص',
+            'warning'
+        );
+        return;
+    }
+    
+    // Create realistic job based on user's ACTUAL data
     const jobTitles = {
-        'it': ['مطور واجهات أمامية', 'مطور Full Stack', 'محلل بيانات', 'مهندس برمجيات'],
-        'finance': ['محاسب', 'محلل مالي', 'مدير مالي', 'مدقق حسابات'],
-        'marketing': ['مدير تسويق', 'متخصص تسويق رقمي', 'مدير حملات', 'محلل تسويق'],
-        'hr': ['مدير موارد بشرية', 'متخصص توظيف', 'مدير تدريب', 'محلل موارده بشرية'],
-        'sales': ['مدير مبيعات', 'مندوب مبيعات', 'مدير حسابات', 'مطور أعمال'],
-        'engineering': ['مهندس مدني', 'مهندس كهربائي', 'مهندس ميكانيكي', 'مهندس معماري'],
-        'healthcare': ['طبيب عام', 'ممرض', 'صيدلي', 'فني طبي'],
-        'education': ['معلم', 'مدير مدرسة', 'مدرب', 'أكاديمي']
+        'it': {
+            'مبتدئ': ['مطور واجهات أمامية مبتدئ', 'مساعد مطور برمجيات', 'مصمم مواقع', 'فني دعم فني'],
+            'متوسط': ['مطور واجهات أمامية', 'مطور Full Stack', 'محلل بيانات مبتدئ', 'مهندس برمجيات'],
+            'خبير': ['مهندس برمجيات أول', 'محلل بيانات أول', 'مطور Backend أول', 'DevOps Engineer', 'مهندس سحابة', 'قائد فريق تطوير']
+        },
+        'finance': {
+            'مبتدئ': ['محاسب مبتدئ', 'مساعد محاسب', 'موظف دخال حسابات', 'مدقق حسابات مبتدئ'],
+            'متوسط': ['محاسب', 'محلل مالي مبتدئ', 'مدير مالي مساعد', 'موظف بنك'],
+            'خبير': ['محلل مالي أول', 'مدير مالي', 'مستشار مالي', 'مدير خزينة', 'مدير استثمار']
+        },
+        'marketing': {
+            'مبتدئ': ['مسوق إلكتروني مبتدئ', 'مساعد تسويق', 'منسق محتوى', 'مدير وسائل تواصل اجتماعي'],
+            'متوسط': ['متخصص تسويق رقمي', 'مدير حملات', 'محلل تسويق', 'مسوق إلكتروني'],
+            'خبير': ['مدير تسويق', 'مدير علامة تجارية', 'مدير تسويق رقمي أول', 'مدير تطوير أعمال']
+        },
+        'hr': {
+            'مبتدئ': ['مساعد موارد بشرية', 'متخصص توظيف مبتدئ', 'منسق سجلات', 'فني موارد بشرية'],
+            'متوسط': ['متخصص توظيف', 'محلل موارد بشرية', 'مدير تدريب', 'أخصائي علاقات موظفين'],
+            'خبير': ['مدير موارد بشرية', 'مدير تعويضات', 'مدير أداء', 'مستشار موارد بشرية']
+        },
+        'sales': {
+            'مبتدئ': ['مندوب مبيعات مبتدئ', 'مساعد مبيعات', 'موظف خدمة عملاء', 'مندوب مبيعات داخلية'],
+            'متوسط': ['مندوب مبيعات', 'مدير حسابات', 'مساعد مدير مبيعات', 'مندوب مبيعات ميداني'],
+            'خبير': ['مدير مبيعات', 'مدير تطوير أعمال', 'مدير فرع', 'مدير مبيعات أول']
+        },
+        'engineering': {
+            'مبتدئ': ['مهندس مدني مبتدئ', 'مهندس مساح', 'مهندس تصميم', 'مهندس إنشاءات مبتدئ'],
+            'متوسط': ['مهندس مدني', 'مهندس كهربائي', 'مهندس ميكانيكي', 'مهندس معماري'],
+            'خبير': ['مهندس استشاري', 'مدير مشروع', 'مهندس أول', 'مدير قسم هندسي']
+        },
+        'healthcare': {
+            'مبتدئ': ['ممرض مبتدئ', 'فني طبي', 'صيدلاني مبتدئ', 'أخصائي تمريض'],
+            'متوسط': ['ممرض', 'صيدلاني', 'فني مختبرات', 'أخصائي تغذية'],
+            'خبير': ['طبيب عام', 'طبيب اختصاص', 'صيدلاني', 'أخصائي تخدير']
+        },
+        'education': {
+            'مبتدئ': ['معلم مبتدئ', 'مساعد معلم', 'موجه صف', 'أخصائي تربوي مبتدئ'],
+            'متوسط': ['معلم', 'موجه أكاديمي', 'أخصائي تربوي', 'مدير قسم'],
+            'خبير': ['مدير مدرسة', 'موجه أكاديمي أول', 'مدير تعليم', 'مطور مناهج']
+        }
     };
     
     const companies = {
-        'riyadh': ['شركة التقنية المتقدمة', 'بنك الأعمال السعودية', 'شركة النقل', 'شركة الاتصالات', 'شركة البترول'],
-        'jeddah': ['شركة البحر الأحمر', 'شركة الموانئ', 'شركة السياحة', 'شركة التجارة', 'شركة الصناعة'],
-        'dammam': ['شركة الصناعية', 'شركة البتروكيماويات', 'شركة النقل البحري', 'شركة الخدمات', 'شركة التكنولوجيا']
+        'riyadh': {
+            'كبرى': ['شركة التقنية المتقدمة', 'بنك الأعمال السعودية', 'شركة الاتصالات السعودية', 'شركة البترول السعودية', 'شركة الكهرباء', 'شركة الصناعات الأساسية'],
+            'متوسطة': ['شركة النقل الجماعي', 'شركة المياه الوطنية', 'شركة الأسواق السعودية', 'شركة البتركيماويات', 'شركة الأسمدة'],
+            'صغيرة': ['شركة التقنية الناشئة', 'شركة الحلول الرقمية', 'شركة الاستشارات التقنية', 'شركة البرمجيات المتخصصة']
+        },
+        'jeddah': {
+            'كبرى': ['شركة البحر الأحمر', 'شركة الموانئ', 'شركة السياحة', 'شركة التجارة', 'شركة الصناعة'],
+            'متوسطة': ['شركة البناء', 'شركة النقل البحري', 'شركة الخدمات اللوجستية', 'شركة التخزين'],
+            'صغيرة': ['شركة الاستيراد والتصدير', 'شركة التسويق الرقمي', 'شركة السياحة البحرية', 'شركة الصناعات الغذائية']
+        },
+        'dammam': {
+            'كبرى': ['شركة الصناعية', 'شركة البتروكيماويات', 'شركة النقل البحري', 'شركة الصلب'],
+            'متوسطة': ['شركة الأسمدة', 'شركة البتروكيماويات الثانية', 'شركة الصناعات المعدنية', 'شركة الطاقة'],
+            'صغيرة': ['شركة الخدمات البترولية', 'شركة الصيانة الصناعية', 'شركة المقاولات', 'شركة المعدات الثقيلة']
+        }
     };
     
-    const userIndustry = userData.industry || 'it';
-    const userLocation = userData.preferredLocation || 'riyadh';
+    // Get job titles based on user's experience level
+    const experienceLevel = userExperience || 'متوسط';
+    const titlesByExperience = jobTitles[userIndustry]?.[experienceLevel] || jobTitles['it']['متوسط'];
+    const titles = titlesByExperience;
     
-    const titles = jobTitles[userIndustry] || jobTitles['it'];
-    const companyList = companies[userLocation] || companies['riyadh'];
+    // Get companies based on location
+    const companiesByLocation = companies[userLocation] || companies['riyadh'];
+    const allCompanies = [...companiesByLocation['كبرى'], ...companiesByLocation['متوسطة'], ...companiesByLocation['صغيرة']];
+    
+    // Add skill-based job matching
+    const skillBasedJobs = {
+        'javascript': ['مطور JavaScript', 'مطور React.js', 'مطور Node.js', 'مهندس Frontend'],
+        'python': ['مطور Python', 'محلل بيانات Python', 'مهندس Backend Python', 'عالم بيانات Python'],
+        'java': ['مطور Java', 'مهندس Java', 'مطور Spring Boot', 'مهندس Backend Java'],
+        'react': ['مطور React', 'مهندس React', 'مطور React Native', 'مهندس Frontend React'],
+        'marketing': ['مسوق رقمي', 'مدير حملات', 'محلل تسويق', 'مدير وسائل التواصل'],
+        'accounting': ['محاسب', 'محلل مالي', 'مدقق حسابات', 'مدير مالي'],
+        'teaching': ['معلم', 'موجه أكاديمي', 'مدير مدرسة', 'مطور مناهج']
+    };
+    
+    // Try to match user skills with job titles
+    let matchingTitles = titles;
+    if (userSkills) {
+        const skills = userSkills.toLowerCase();
+        for (const [skill, skillJobs] of Object.entries(skillBasedJobs)) {
+            if (skills.includes(skill)) {
+                matchingTitles = [...skillJobs, ...titles];
+                break;
+            }
+        }
+    }
+    
+    const statuses = ['قيد المراجعة', 'تم القبول', 'مرفوض'];
+    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
     
     const newJob = {
         id: Date.now(),
-        title: titles[Math.floor(Math.random() * titles.length)],
-        company: companyList[Math.floor(Math.random() * companyList.length)],
-        type: 'info',
-        salary: userData.targetSalary || '10,000 - 15,000 ريال',
+        title: matchingTitles[Math.floor(Math.random() * matchingTitles.length)],
+        company: allCompanies[Math.floor(Math.random() * allCompanies.length)],
+        type: randomStatus === 'تم القبول' ? 'success' : randomStatus === 'مرفوض' ? 'error' : 'info',
+        salary: targetSalary,
         location: userLocation,
-        status: 'قيد المراجعة',
-        date: new Date()
+        status: randomStatus,
+        date: new Date(),
+        experienceLevel: experienceLevel,
+        industry: userIndustry
     };
     
     // Add to applied jobs
@@ -888,13 +980,24 @@ function addNewJobApplication() {
     // Save to localStorage
     localStorage.setItem('appliedJobs', JSON.stringify(window.appliedJobs));
     
-    // Add notification
-    addNotification(
-        'تقديم جديد على وظيفة',
-        `قام النظام الذكي بالتقديم على وظيفة "${newJob.title}" في ${newJob.company}`,
-        'info',
-        newJob
-    );
+    // Add notification with appropriate message
+    let notificationTitle, notificationMessage, notificationType;
+    
+    if (randomStatus === 'تم القبول') {
+        notificationTitle = '🎉 مبروك! تم قبولك';
+        notificationMessage = `تهانينا! تم قبولك في وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تناسب خبرتك في ${userIndustry} ومستواك ${experienceLevel}`;
+        notificationType = 'success';
+    } else if (randomStatus === 'مرفوض') {
+        notificationTitle = '📝 نتيجة التقديم';
+        notificationMessage = `تم مراجعة طلبك لوظيفة "${newJob.title}" في ${newJob.company}. لا تقلق، سيقوم النظام بالبحث عن فرص أفضل تناسب خبرتك في ${userIndustry}`;
+        notificationType = 'error';
+    } else {
+        notificationTitle = '📋 تقديم جديد على وظيفة';
+        notificationMessage = `قام النظام الذكي بالتقديم على وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تناسب خبرتك في ${userIndustry}`;
+        notificationType = 'info';
+    }
+    
+    addNotification(notificationTitle, notificationMessage, notificationType, newJob);
 }
 
 // Check if user data exists on page load
@@ -902,8 +1005,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const userData = localStorage.getItem('userData');
     
     if (!userData) {
-        // No user data found, redirect to AI system for registration
-        window.location.href = 'ai-system.html';
+        // No user data found, but still start AI system with sample data
+        console.log('No user data found, starting AI system with sample data');
+        
+        // Load existing applied jobs or create empty array
+        const savedJobs = localStorage.getItem('appliedJobs');
+        if (savedJobs) {
+            window.appliedJobs = JSON.parse(savedJobs);
+        } else {
+            window.appliedJobs = [];
+        }
+        
+        // Update UI for guest state
+        const userNameElement = document.getElementById('userName');
+        const userEmailElement = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        if (userNameElement) userNameElement.textContent = 'ضيف';
+        if (userEmailElement) userEmailElement.textContent = 'سجل بياناتك';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (registerBtn) registerBtn.style.display = 'flex';
+        
+        // Add notifications for existing applied jobs
+        window.appliedJobs.forEach(job => {
+            let notificationTitle, notificationMessage, notificationType;
+            
+            if (job.status === 'تم القبول') {
+                notificationTitle = '🎉 مبروك! تم قبولك';
+                notificationMessage = `تهانينا! تم قبولك في وظيفة "${job.title}" في ${job.company} براتب ${job.salary}`;
+                notificationType = 'success';
+            } else if (job.status === 'مرفوض') {
+                notificationTitle = '📝 نتيجة التقديم';
+                notificationMessage = `تم رفض طلبك لوظيفة "${job.title}" في ${job.company}. سيقوم النظام بالتقديم على فرص أفضل`;
+                notificationType = 'error';
+            } else {
+                notificationTitle = '📋 تقديم على وظيفة';
+                notificationMessage = `تم التقديم على وظيفة "${job.title}" في ${job.company} براتب ${job.salary}`;
+                notificationType = 'info';
+            }
+            
+            addNotification(notificationTitle, notificationMessage, notificationType, job);
+        });
+        
+        // Add welcome notification
+        addNotification(
+            '🤖 مرحباً بك في JobPilot',
+            'النظام الذكي يعمل الآن على البحث عن وظائف مناسبة لك. سجل بياناتك للحصول على وظائف مخصصة!',
+            'info'
+        );
+        
+        // Start periodic job applications
+        setInterval(() => {
+            if (Math.random() > 0.6) { // 40% chance
+                addNewJobApplication();
+            }
+        }, 15000); // Every 15 seconds
     } else {
         // User data exists, load applied jobs from localStorage
         const savedJobs = localStorage.getItem('appliedJobs');
