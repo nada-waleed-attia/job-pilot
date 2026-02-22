@@ -526,9 +526,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- AOS Animation -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/real-ai-system.js"></script>
+    <script src="js/real-api.js"></script>
+    <script src="js/ai-system.js"></script>
     <script src="js/main.js"></script>
 <script>
 // Notification System
@@ -862,8 +863,8 @@ function formatTime(date) {
     return `${Math.floor(diff / 86400)} يوم`;
 }
 
-// Add new job application based on user data
-function addNewJobApplication() {
+// Add new job application based on user data or sample data
+async function addNewJobApplication() {
     const userData = localStorage.getItem('userData');
     let userIndustry, userLocation, targetSalary, userSkills, userExperience;
     
@@ -884,6 +885,112 @@ function addNewJobApplication() {
         return;
     }
     
+    try {
+        // Use real API to get job recommendations
+        const jobRecommendations = await window.jobPilotAPI.searchJobs({
+            industry: userIndustry,
+            location: userLocation,
+            experience: userExperience,
+            keyword: userSkills
+        });
+        
+        if (jobRecommendations.success && jobRecommendations.data.jobs.length > 0) {
+            // Get a random job from real recommendations
+            const randomJob = jobRecommendations.data.jobs[Math.floor(Math.random() * jobRecommendations.data.jobs.length)];
+            
+            // Apply to the job using real API
+            const applicationResult = await window.jobPilotAPI.applyToJob(randomJob.id, {
+                user_data: JSON.parse(userData),
+                cover_letter: `أنا مهتم جداً بوظيفة ${randomJob.title} في ${randomJob.company}. خبرتي في ${userIndustry} ومهاراتي في ${userSkills} تجعلني مرشحاً مثالياً لهذه الوظيفة.`,
+                expected_salary: targetSalary
+            });
+            
+            if (applicationResult.success) {
+                // Get application status
+                const statusResult = await window.jobPilotAPI.getApplicationStatus(applicationResult.data.application_id);
+                
+                const newJob = {
+                    id: randomJob.id,
+                    title: randomJob.title,
+                    company: randomJob.company,
+                    type: statusResult.data.status === 'accepted' ? 'success' : statusResult.data.status === 'rejected' ? 'error' : 'info',
+                    salary: randomJob.salary,
+                    location: randomJob.location,
+                    status: statusResult.data.status_message,
+                    date: new Date(),
+                    experienceLevel: userExperience,
+                    industry: userIndustry,
+                    application_id: applicationResult.data.application_id,
+                    tracking_number: applicationResult.data.tracking_number,
+                    progress: statusResult.data.progress,
+                    next_action: statusResult.data.next_action
+                };
+                
+                // Add to applied jobs
+                if (!window.appliedJobs) {
+                    window.appliedJobs = [];
+                }
+                window.appliedJobs.push(newJob);
+                
+                // Save to localStorage
+                localStorage.setItem('appliedJobs', JSON.stringify(window.appliedJobs));
+                
+                // Add notification with appropriate message
+                let notificationTitle, notificationMessage, notificationType;
+                
+                if (statusResult.data.status === 'accepted') {
+                    notificationTitle = '🎉 مبروك! تم قبولك';
+                    notificationMessage = `تهانينا! تم قبولك في وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تم اختيارها بناءً على بياناتك المسجلة: تخصصك في ${userIndustry}، خبرتك ${userExperience}، ومهاراتك`;
+                    notificationType = 'success';
+                    
+                    // Add acceptance data to user record
+                    const userData = JSON.parse(userData);
+                    if (!userData.acceptedJobs) userData.acceptedJobs = [];
+                    userData.acceptedJobs.push({
+                        ...newJob,
+                        acceptanceDate: new Date(),
+                        matchingFactors: {
+                            industry: userIndustry,
+                            experience: userExperience,
+                            skills: userSkills,
+                            location: userLocation,
+                            salary: targetSalary
+                        }
+                    });
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                } else if (statusResult.data.status === 'rejected') {
+                    notificationTitle = '📝 نتيجة التقديم';
+                    notificationMessage = `تم مراجعة طلبك لوظيفة "${newJob.title}" في ${newJob.company}. بناءً على بياناتك، سيقوم النظام بالبحث عن فرص أفضل في ${userIndustry} تناسب خبرتك ${userExperience}`;
+                    notificationType = 'error';
+                } else {
+                    notificationTitle = '📋 تقديم جديد على وظيفة';
+                    notificationMessage = `قام النظام الذكي بالتقديم على وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تم اختيارها بناءً على تخصصك في ${userIndustry} ومستواك ${userExperience}. رقم التتبع: ${applicationResult.data.tracking_number}`;
+                    notificationType = 'info';
+                }
+                
+                addNotification(notificationTitle, notificationMessage, notificationType, newJob);
+            }
+        } else {
+            throw new Error('No jobs found');
+        }
+    } catch (error) {
+        console.error('Real API Error:', error);
+        
+        // Fallback to mock system if real API fails
+        addNotification(
+            '⚠️ استخدام النظام الاحتياطي',
+            'النظام الحقيقي غير متاح حالياً، يتم استخدام النظام الاحتياطي',
+            'warning'
+        );
+        
+        // Use original mock system
+        const mockJob = await createMockJobApplication(userIndustry, userLocation, targetSalary, userSkills, userExperience);
+        addNotification(mockJob.notificationTitle, mockJob.notificationMessage, mockJob.notificationType, mockJob.newJob);
+    }
+}
+
+// Create mock job application as fallback
+async function createMockJobApplication(userIndustry, userLocation, targetSalary, userSkills, userExperience) {
     // Create realistic job based on user's ACTUAL data
     const jobTitles = {
         'it': {
@@ -955,35 +1062,12 @@ function addNewJobApplication() {
     const companiesByLocation = companies[userLocation] || companies['riyadh'];
     const allCompanies = [...companiesByLocation['كبرى'], ...companiesByLocation['متوسطة'], ...companiesByLocation['صغيرة']];
     
-    // Add skill-based job matching
-    const skillBasedJobs = {
-        'javascript': ['مطور JavaScript', 'مطور React.js', 'مطور Node.js', 'مهندس Frontend'],
-        'python': ['مطور Python', 'محلل بيانات Python', 'مهندس Backend Python', 'عالم بيانات Python'],
-        'java': ['مطور Java', 'مهندس Java', 'مطور Spring Boot', 'مهندس Backend Java'],
-        'react': ['مطور React', 'مهندس React', 'مطور React Native', 'مهندس Frontend React'],
-        'marketing': ['مسوق رقمي', 'مدير حملات', 'محلل تسويق', 'مدير وسائل التواصل'],
-        'accounting': ['محاسب', 'محلل مالي', 'مدقق حسابات', 'مدير مالي'],
-        'teaching': ['معلم', 'موجه أكاديمي', 'مدير مدرسة', 'مطور مناهج']
-    };
-    
-    // Try to match user skills with job titles
-    let matchingTitles = titles;
-    if (userSkills) {
-        const skills = userSkills.toLowerCase();
-        for (const [skill, skillJobs] of Object.entries(skillBasedJobs)) {
-            if (skills.includes(skill)) {
-                matchingTitles = [...skillJobs, ...titles];
-                break;
-            }
-        }
-    }
-    
     const statuses = ['قيد المراجعة', 'تم القبول', 'مرفوض'];
     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
     
     const newJob = {
         id: Date.now(),
-        title: matchingTitles[Math.floor(Math.random() * matchingTitles.length)],
+        title: titles[Math.floor(Math.random() * titles.length)],
         company: allCompanies[Math.floor(Math.random() * allCompanies.length)],
         type: randomStatus === 'تم القبول' ? 'success' : randomStatus === 'مرفوض' ? 'error' : 'info',
         salary: targetSalary,
@@ -994,38 +1078,10 @@ function addNewJobApplication() {
         industry: userIndustry
     };
     
-    // Add to applied jobs
-    if (!window.appliedJobs) {
-        window.appliedJobs = [];
-    }
-    window.appliedJobs.push(newJob);
-    
-    // Save to localStorage
-    localStorage.setItem('appliedJobs', JSON.stringify(window.appliedJobs));
-    
-    // Add notification with appropriate message
-    let notificationTitle, notificationMessage, notificationType;
-    
     if (randomStatus === 'تم القبول') {
         notificationTitle = '🎉 مبروك! تم قبولك';
         notificationMessage = `تهانينا! تم قبولك في وظيفة "${newJob.title}" في ${newJob.company} براتب ${newJob.salary}. هذه الوظيفة تم اختيارها بناءً على بياناتك المسجلة: تخصصك في ${userIndustry}، خبرتك ${experienceLevel}، ومهاراتك`;
         notificationType = 'success';
-        
-        // Add acceptance data to user record
-        const userData = JSON.parse(userData);
-        if (!userData.acceptedJobs) userData.acceptedJobs = [];
-        userData.acceptedJobs.push({
-            ...newJob,
-            acceptanceDate: new Date(),
-            matchingFactors: {
-                industry: userIndustry,
-                experience: experienceLevel,
-                skills: userSkills,
-                location: userLocation,
-                salary: targetSalary
-            }
-        });
-        localStorage.setItem('userData', JSON.stringify(userData));
     } else if (randomStatus === 'مرفوض') {
         notificationTitle = '📝 نتيجة التقديم';
         notificationMessage = `تم مراجعة طلبك لوظيفة "${newJob.title}" في ${newJob.company}. بناءً على بياناتك، سيقوم النظام بالبحث عن فرص أفضل في ${userIndustry} تناسب خبرتك ${experienceLevel}`;
@@ -1036,7 +1092,7 @@ function addNewJobApplication() {
         notificationType = 'info';
     }
     
-    addNotification(notificationTitle, notificationMessage, notificationType, newJob);
+    return { notificationTitle, notificationMessage, notificationType, newJob };
 }
 
 // Check if user data exists on page load
